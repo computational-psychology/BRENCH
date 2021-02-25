@@ -7,17 +7,20 @@ Roadmap:
   - [ ] Accurate inventory (including where everything lives)
   - [ ] Background readings (?)
   - [ ] Goals & tasks
-- [ ] Decide on minimal viable product
-  - [ ] Overview with just models and illusions that we already have code for
-  - [ ] Translate existing Matlab implementations to Python
-  - [ ] (Unit)tests
-  - [ ] Metrics ?
+- [ ] Minimal viable product: pipeline to produce an overview
+  - [ ] Models:
+    - [ ] a (F)(L)ODOG model
+    - [ ] a Domijan model
+  - [ ] Stimuli:
+    - [ ] a few that we currently have
+  - [ ] Metric:
+    - [ ] direction of effect for each Model x Stimulus combination
+  - [ ] all with (Unit)tests
+- Tasks:
+  1. [ ] Pipeline
+  1. [ ] Translate existing Matlab implementations to Python
 - [ ] Create a brain-score-org like interface (www.brain-score.org)
 
-How to read the inventory:
-We have an implementation for this in Python
-We have an implementation for this in Matlab
-We do not have an implementation for this
 
 Models
 - [X] ODOG (B&M 1997, 1999, 2015)
@@ -26,7 +29,7 @@ Models
 - [X] Domijan’s filling-in model (Domijan, 2015)
 - [ ] BIWAM (Otazu, Vanrell, & Parraga, 2008)
 - [ ] Dakin & Bex model (Dakin & Bex, 2003)
-- [ ] Francis filling-in model (Francis & Kim, 2012; Francis, 2015)
+- [x] Francis filling-in model (Francis & Kim, 2012; Francis, 2015)
 - [ ] Rudd model (Rudd 2001; Rudd & Zemach 2007; Zemach & Rudd 2007; Rudd 2013; ...)
 - [ ] Richard Murray (Murray, 2018; Murray 2020)
 - [ ] Grossberg and Todorovic filling-in model (Grossberg & Todorovic, 1988)
