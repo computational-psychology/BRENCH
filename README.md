@@ -27,11 +27,13 @@ Models
 - [X] LODOG (RHS, 2007)
 - [X] FLODOG (RHS, 2007)
 - [X] Domijan’s filling-in model (Domijan, 2015)
-- [ ] BIWAM (Otazu, Vanrell, & Parraga, 2008)
-- [ ] Dakin & Bex model (Dakin & Bex, 2003)
 - [x] Francis filling-in model (Francis & Kim, 2012; Francis, 2015)
+- [ ] BIWAM (Otazu, Vanrell, & Parraga, 2008; **MATLAB code**)
+- [ ] Dakin & Bex model (Dakin & Bex, 2003; **MATLAB code**)
+- [ ] Murray's probabilistic model (Murray, 2018; Murray 2020; **MATLAB code in Murray2020**)
+- [ ] High-pass model (Shapiro & Lu, 2011; **MATLAB code in Murray2020**)
+- [ ] Retinex model (Land & McCann, 1971; McCann, 1999; **MATLAB code in Murray2020**)
 - [ ] Rudd model (Rudd 2001; Rudd & Zemach 2007; Zemach & Rudd 2007; Rudd 2013; ...)
-- [ ] Richard Murray (Murray, 2018; Murray 2020)
 - [ ] Grossberg and Todorovic filling-in model (Grossberg & Todorovic, 1988)
 
 
@@ -82,10 +84,7 @@ Metrics
 
 Tasks
 - Brightness estimation
+- Brightness estimation in stimulus pairs ("Which effect is stronger?", e.g. Murray2020)
 - Brightness estimation in (narrowband) noise (see Betz, Shapley, Wichmann, & Maertens, 2015; Salmela & Laurinen, 2009)
 - Brightness estimation after contour adaptation (Anstis & Greenlee, 2013; Anstis, 2014)
 - Brightness estimation after flicker adaptation (Robinson & de Sa, 2012; 2013)
-
-
-
-
