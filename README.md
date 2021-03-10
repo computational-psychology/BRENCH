@@ -85,6 +85,7 @@ Metrics
 
 Tasks
 - Brightness estimation
+- Tests for glow, codetermination and articulation (see Murray2020)
 - Brightness estimation in (narrowband) noise (see Betz, Shapley, Wichmann, & Maertens, 2015; Salmela & Laurinen, 2009)
 - Brightness estimation after contour adaptation (Anstis & Greenlee, 2013; Anstis, 2014)
 - Brightness estimation after flicker adaptation (Robinson & de Sa, 2012; 2013)
