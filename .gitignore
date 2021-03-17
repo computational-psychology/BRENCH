@@ -1,0 +1,8 @@
+# python bytecode
+__pycache__/
+
+# pycharm files
+.idea/
+
+# vim swap files
+*.sw?

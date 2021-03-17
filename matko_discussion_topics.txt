@@ -1,0 +1,14 @@
+How do we handle git repositories? -> all models and stimuli in the same repo or do we use git submodules
+Virtual environments? -> It would make more sense to have one virtual env in the big project that's used to run everything, but the submodules/subprojects should have a requirements.txt file, so they can be ran standalone
+Branches naming? -> personal branches, developmen and master?
+Code formatter? -> We can use black, I can provide a python script which sets up black to be run automagically on each commit/push and optionally people can set up their IDE to run it on file save
+
+Proposed directory structure
+/
+	stimuli/
+	models/
+		utils/ # functions and classed shared between different models (e.g., filter)
+		odog/
+			main.py # each model would have the main function that accepts a set of inputs and provide
+			all_the_rest/
+		domijan/
