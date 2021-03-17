@@ -12,3 +12,6 @@ Proposed directory structure
 			main.py # each model would have the main function that accepts a set of inputs and provide
 			all_the_rest/
 		domijan/
+
+	core/
+
