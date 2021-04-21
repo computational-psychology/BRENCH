@@ -1,6 +1,9 @@
 # python bytecode
 __pycache__/
 
+# pytest cache directory
+.pytest_cache/
+
 # pycharm files
 .idea/
 
