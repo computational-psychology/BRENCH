@@ -1,0 +1,7 @@
+The pipeline is very basic at the moment, but it should work (should work as in 'it works on my machine and I haven't extensively tested any other specific environments'). 
+It is started by running `python3 core/main.py` assuming you are in the `evaluating-ligntess-models` directory (running it from an IDE should work as well, but I haven't tried it out yet). It also assumes you have `multyscale` directory as a sibling directory of `evaluating-lightness-models` (be sure to be in `matko` branch in that repo). This is just for the current prototyping phase. In the future, all the models should be inside the `evaluating-lightness-models` directory.  
+
+You can specify the names of the models you want to run in the `main.py` file. The names have to be exactly the same as the names of classes in `multyscale/models.py`).
+The input stimuli are located in `evaluating-lightness-models/stimuli` directory. At the moment only `example_stimulus.png` is working because the others (the ones from Domijan's model) have uncompatible resolution with the multyscale models.  
+
+The output of the main function is dictionary containing one entry for each model that was run. Each of those entry contains another dictionary where the keys are the stimuli that were run and values are the ouput arrays of the model for that specific stimulus. The idea is that the user can then decide what to do with those values (e.g., plot them, compare them, save them, print them, etc.)
