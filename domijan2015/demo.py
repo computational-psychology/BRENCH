@@ -10,12 +10,12 @@ import main
 def run_demo():
     save_plot = True
     cut_height = 55
+    S = 20
     for i in range(1, 13): # if you want to run only specific inputs, use list of the indices you want instead of range(1,13)
         print("doing ", str(i))
         input, illusion_name, cut_height = utils.generate_input(i)
         M, N = input.shape
-        S = 20
-        res = main.model(input, S)
+        res = main.main(None, {"S":S}, {illusion_name: input})[illusion_name]
         #{"c_ON": c_ON, "c_OFF": c_OFF, "l_ON": l_ON, "l_OFF": l_OFF, "M_ON": M_ON, "M_OFF": M_OFF}
         c_ON, c_OFF, l_ON, l_OFF, M_ON, M_OFF, LBD_h, LBD_v, GBD_h, GBD_v, R_h, R_v, bright = \
             res["c_ON"], res["c_OFF"], res["l_ON"], res["l_OFF"], res["M_ON"], res["M_OFF"], \
