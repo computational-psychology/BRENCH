@@ -3,7 +3,10 @@ from scipy.signal import fftconvolve
 import scipy.ndimage as ndimage
 import copy
 
-import utils
+if __package__ == None or __package__ == "":
+    import utils
+else:
+    from . import utils
 
 
 def get_gabor(size, k, K, Sigma_1 = 1.5, Sigma_2 = 0.5, G = 1, H = 0.5):

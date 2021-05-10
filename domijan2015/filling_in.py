@@ -13,7 +13,10 @@ in brightness perception
 import numpy as np
 import copy
 
-import utils
+if __package__ == None or __package__ == "":
+    import utils
+else:
+    from . import utils
 
 
 # Function that generates brightness percept based on filing-in:

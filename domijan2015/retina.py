@@ -1,7 +1,10 @@
 import numpy as np
 from scipy.signal import fftconvolve
 
-import utils
+if __package__ == None or __package__ == "":
+    import utils
+else:
+    from . import utils
 
 
 def get_contrast_pathways(xx, yy, input_image, Z):
