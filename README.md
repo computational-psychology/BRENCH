@@ -1,5 +1,26 @@
 # Evaluating Lightness Models
 
+TODOs Tutorial/Documentation/Readme:
+- [ ] Block overview:
+  - [ ] components are Models, stimuli, pipeline
+  - [ ] Schematic overview of input and output
+- [ ] Some type of translation between block overview and (pseudo)code implementation
+- [ ] Installation
+  - [ ] How to also get the dependencies ? pip can install requirements also from git repos, right?
+  - [ ] Where to get the stimuli
+- [ ] Use cases:
+  - [ ] User: Running the "full" pipeline as is
+  - [ ] User+: Add your own stimuli
+  - [ ] Contributer: Add your own model(s)
+- [ ] Background on the architecture
+  - [ ] How would this pipeline simplify if just one model?
+  - [ ] Why does that breakdown for multiple models
+- [ ] Design decisions:
+  - [ ] Which responsibilities/tasks do we want to hide from the user(+)?
+  - [ ] Which responsibilities do we want to require from the user(+)?
+  - [ ] Why?
+
+
 Roadmap:
 - [x] Create inventory
 - [ ] Create background overview for onboarding of new assistant
