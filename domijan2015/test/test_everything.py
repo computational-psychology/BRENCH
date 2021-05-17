@@ -35,13 +35,13 @@ def test_everything():
         "c_ON",
         "c_OFF",
         "l_ON",
-        "l_OFF", # not working
+        "l_OFF",
         "M_ON",
         "M_OFF",
         "LBD_h",
         "LBD_v",
         "GBD_h",
-        "GBD_v", # not working
+        "GBD_v",
         "R_h",
         "R_v",
         "bright"

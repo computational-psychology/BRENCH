@@ -29,7 +29,7 @@ def main(model_class, params, stimuli):
         input_image = utils.add_surround(stimulus, S)
 
         # Extract contrast and luminance information:
-        c_ON, c_OFF, l_ON, l_OFF = retina.run(input_image, int(S/2))
+        c_ON, c_OFF, l_ON, l_OFF = retina.run(input_image, int(S / 2))
 
         # Contrast and luminance integration in the ON channel:
         w1 = 3.
