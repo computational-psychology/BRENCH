@@ -1,5 +1,6 @@
 import importlib
-import parse_config
+
+import adapters
 
 def main(config_module='config', config_dict='config'):
 
@@ -10,8 +11,7 @@ def main(config_module='config', config_dict='config'):
     outputs = {}
     for model in config["models"]:
         print("Running model " + model["name"])
-        main = parse_config.get_main(model['package'])
-        outputs[model["name"]] = main(model["model"], model["params"], config["stimuli"])
+        runner = eval(f"adapters.{model['package']}.main")
+        outputs[model["name"]] = runner(model["model"], model["params"], config["stimuli"])
     return outputs
 
-main()

@@ -1,6 +1,5 @@
 import stimuli
 
-
 config = {
     "models": [
         {
@@ -31,8 +30,8 @@ config = {
         ],
 
     "stimuli": {
-        "RHS2007_WE_thick": stimuli.papers_stimuli.RHS2007.WE_thick(),
-        "RHS2007_WE_circular": stimuli.papers_stimuli.RHS2007.WE_circular1(),
+        "dungeon": stimuli.papers_stimuli.domijan2015.dungeon(),
+        "todorovic": stimuli.papers_stimuli.domijan2015.todorovic(),
         "benary_cross": stimuli.illusions.benary_cross.domijan2015(),
     }
 }
