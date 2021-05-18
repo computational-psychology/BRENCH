@@ -11,4 +11,4 @@ __pycache__/
 *.sw?
 
 # jupyter notebook checkpoint files
-.ipynb_checkpoints/
+.ipynb_checkpoints

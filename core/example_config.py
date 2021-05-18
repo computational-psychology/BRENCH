@@ -25,7 +25,7 @@ case2 = {
     ],
     "stimuli": {
             "benary_cross": stimuli.illusions.benary_cross.lynn_domijan2015(),
-            "dungeon": stimuli.illusions.dungeon.dungeon_illusion(),
+            "dungeon": stimuli.illusions.dungeon.lynn_domijan2015(),
             "todorovic": stimuli.illusions.todorovic.lynn_domijan2015()
     }
 }
@@ -59,7 +59,7 @@ case3 = {
     ],
     "stimuli": {
             "benary_cross": stimuli.illusions.benary_cross.lynn_domijan2015(),
-            "dungeon": stimuli.illusions.dungeon.dungeon_illusion(),
+            "dungeon": stimuli.illusions.dungeon.lynn_domijan2015(),
             "todorovic": stimuli.illusions.todorovic.lynn_domijan2015()
     }
 }
