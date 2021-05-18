@@ -14,7 +14,7 @@ def plot_outputs(res):
         for j, (stimulus, output) in enumerate(model_output.items()):
             index = i+j*M+1
             plt.subplot(N, M, index)
-            plt.title(model_name + " - " + stimulus)
+            plt.title(model_name + "\n" + stimulus)
             plt.imshow(output["image"], cmap='coolwarm')
             plt.colorbar()
     plt.show()

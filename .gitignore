@@ -9,3 +9,6 @@ __pycache__/
 
 # vim swap files
 *.sw?
+
+# jupyter notebook checkpoint files
+.ipynb_checkpoints/
