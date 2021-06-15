@@ -1,12 +1,13 @@
-import importlib
+from collections import OrderedDict
 
-import adapters
+from pipeline import adapters
 
 def main(config):
-    outputs = {}
+    outputs = OrderedDict()
+    outputs["input_stimuli"] = config["stimuli"]
     for model in config["models"]:
         print("Running model " + model["name"])
-        runner = eval(f"adapters.{model['package']}.main")
+        runner = model["runner"]
         outputs[model["name"]] = runner(model["model"], model["params"], config["stimuli"])
     return outputs
 
