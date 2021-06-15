@@ -12,3 +12,5 @@ __pycache__/
 
 # jupyter notebook checkpoint files
 .ipynb_checkpoints
+
+*.egg-info
