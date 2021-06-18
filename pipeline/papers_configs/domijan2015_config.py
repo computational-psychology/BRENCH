@@ -2,16 +2,17 @@ import stimuli
 from pipeline.adapters.domijan2015 import main as domijan_main
 from pipeline import main, plots
 
-domijan2015 = {
-    "models": [
+print("Initialising model...")
+models = [
         {
             "name": "domijan2015",
             "runner": domijan_main,
             "model": None,
             "params": {"S": 20}
         }
-    ],
-    "stimuli": {
+]
+print("Initialising stimuli...")
+stimuli = {
         "dungeon": stimuli.papers.domijan2015.dungeon(),
         "cube": stimuli.papers.domijan2015.cube(),
         "grating": stimuli.papers.domijan2015.grating(),
@@ -24,8 +25,9 @@ domijan2015 = {
         "checkerboard contrast-contrast": stimuli.papers.domijan2015.checkerboard_contrast_contrast(),
         "checkerboard contrast": stimuli.papers.domijan2015.checkerboard(),
         "checkerboard contrast extended": stimuli.papers.domijan2015.checkerboard_extended()
-    }
 }
+
+domijan2015 = {"models": models, "stimuli": stimuli}
 
 def run():
     res = main.main(domijan2015)

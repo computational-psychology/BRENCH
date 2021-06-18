@@ -9,6 +9,8 @@ def main(model, params, stimuli):
     used_models = {}
     outputs = {}
     for stimulus_name, stimulus in stimuli.items():
+        print("Running stimulus", stimulus_name, ", model:", model)
+        print("Stimulus shape:", stimulus.shape, "\n")
         shape = stimulus.shape
         if shape not in used_models:
             model_object = eval(f"multyscale.models.{model}(shape, visextent)")

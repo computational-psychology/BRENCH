@@ -7,7 +7,8 @@ def main(model, params, stimuli):
     S = params["S"]
     outputs = {}
     for stimulus_name, stimulus in stimuli.items():
-        print("Running stimulus", stimulus_name)
+        print("Running stimulus", stimulus_name, ", model: domijan")
+        print("Stimulus shape:", stimulus.shape, "\n")
         outputs[stimulus_name] = domijan2015.main.main(stimulus, S)
 
     return outputs
