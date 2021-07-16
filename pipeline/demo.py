@@ -1,7 +1,7 @@
 import main
-import plots
+import visualise_output
 
 res = main.main()
 
-plots.plot_outputs(res)
+visualise_output.plot_outputs(res)
 

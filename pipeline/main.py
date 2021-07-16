@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from pipeline import adapters
 
-def main(config):
+def run_model(config):
     outputs = OrderedDict()
     outputs["input_stimuli"] = config["stimuli"]
     for model in config["models"]:
@@ -11,3 +11,14 @@ def main(config):
         outputs[model["name"]] = runner(model["model"], model["params"], config["stimuli"])
     return outputs
 
+"""
+outputs = {
+    input_stimuli:{
+        stim_name: stim
+    }
+    model_name: {
+        stim_name: output
+    }
+}
+
+"""

@@ -6,9 +6,12 @@ def main(model, params, stimuli):
 
     S = params["S"]
     outputs = {}
-    for stimulus_name, stimulus in stimuli.items():
+    for stimulus_name, stimulus_func in stimuli.items():
+        stimulus = stimulus_func()
         print("Running stimulus", stimulus_name, ", model: domijan")
-        print("Stimulus shape:", stimulus.shape, "\n")
-        outputs[stimulus_name] = domijan2015.main.main(stimulus, S)
+        print("Stimulus shape:", stimulus.img.shape, "\n")
+        output = domijan2015.main.main(stimulus.img, S)
+        output['image'] = domijan2015.utils.remove_surround(output['image'], size=int(S/2))
+        outputs[stimulus_name] = output
 
     return outputs

@@ -1,0 +1,88 @@
+import matplotlib.pyplot as plt
+import matplotlib
+from collections import OrderedDict
+
+from pipeline.postprocessing import calculate_RHS_table_values
+
+def size_to_px(size, dpi):
+    return (size[0]*dpi[0], size[1]*dpi[1])
+
+def px_to_size(pixel_size, dpi):
+    return(pixel_size[0]/dpi, pixel_size[1]/dpi)
+
+
+def plot_outputs(res, fig_px_size=None, fig_dpi=100):
+    """
+    fig_px_size: int tuple (width, height) specifying figure size in pixels
+
+    """
+
+    rows = len(res)
+    cols = len(list(res.values())[0])
+
+    if fig_px_size is not None:
+        fig_width, fig_height = px_to_size(fig_px_size, fig_dpi)
+    else:
+        fig_height, fig_width = (3*rows, 4*cols)
+
+    plt.figure(figsize=[fig_width, fig_height], dpi=fig_dpi)
+    plt.subplots_adjust(left=0.05, right=0.95)
+    matplotlib.rcParams.update({'font.size': 12})
+
+    for i, (model_name, model_output) in enumerate(res.items()): # i = row index
+        for j, (stimulus, output) in enumerate(model_output.items()): # j = col index
+            index = i*cols + j + 1
+            plt.subplot(rows, cols, index)
+            plt.title(model_name + "\n" + stimulus)
+            if model_name == "input_stimuli":
+                plt.imshow(output().img, cmap='gray')
+            else:
+                plt.imshow(output["image"], cmap='coolwarm')
+            plt.colorbar()
+    plt.tight_layout()
+    plt.show()
+
+
+
+def create_RHS_table(pipeline_dict):
+    reshaped_dict = OrderedDict()
+    for model_name, outputs in pipeline_dict.items():
+        if model_name != 'input_stimuli':
+            for stim_name, output in outputs.items():
+                if stim_name not in reshaped_dict:
+                    reshaped_dict[stim_name] = OrderedDict()
+                reshaped_dict[stim_name][model_name] = output["means"]
+
+    data_string = ""
+    for stim_name, means_dict in reshaped_dict.items():
+        data_string += f"<tr><td>{stim_name}</td>"
+        for model_name, means in means_dict.items():
+            patch1, patch2 = tuple(reshaped_dict[stim_name][model_name].values())
+            table_value = calculate_RHS_table_values(means)
+            data_string += f"<td>{round(patch1,2)} : {round(patch2,2)} </td>"
+        data_string += "</tr>"
+
+
+    return f"""
+        <html>
+            <head>
+            <style>
+            @page {{
+                size: A2;
+                margin: 0;
+                }}
+            </style>
+            </head>
+            <body>
+                'first' means that the first target is smaller/darker than the second one, 'second' means that the second target is smaller/darker than the first one
+                 <table style="width:100%">
+                    <tr>
+                        <th> Illusion </th>
+                        <th>ODOG_BM1999</th>
+                    </tr>
+                    {data_string}
+                </table> 
+            </body>
+        </html>
+    """
+
