@@ -14,8 +14,8 @@ def calculate_targets_means(pipeline_dict):
                 masked_outputs = get_all_masked_values(img, mask)
                 means = {}
                 for i, masked_output in enumerate(masked_outputs):
-                    #means[i+1] = np.median(masked_output[masked_output.nonzero()])
-                    means[i+1] = np.mean(masked_output[masked_output.nonzero()])
+                    means[i+1] = np.median(masked_output[masked_output.nonzero()])
+                    #means[i+1] = np.mean(masked_output[masked_output.nonzero()])
 
                 output['means'] = means
     return pipeline_dict
@@ -37,13 +37,15 @@ def get_masked_values(img, mask):
     return new_img
 
 
-def calculate_RHS_table_values(means_dict):
+def calculate_RHS_table_values(means_dict, normalization=None):
     n = len(means_dict)
+    if normalization is None:
+        normalization = 1
 
     if n==2:
         patch1 = means_dict[1]
         patch2 = means_dict[2]
-        return round(abs(patch1-patch2), 2)
+        return (patch1-patch2) / normalization
     else:
         return "None"
 

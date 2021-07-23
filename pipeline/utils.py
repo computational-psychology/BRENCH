@@ -2,7 +2,7 @@ import pickle
 
 def save_dict(res_dict, dic_name):
     f = open(dic_name, 'wb')
-    pickle.dump(res, f)
+    pickle.dump(res_dict, f)
     f.close()
 
 def load_dict(file_name):

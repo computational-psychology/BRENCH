@@ -11,7 +11,7 @@ def px_to_size(pixel_size, dpi):
     return(pixel_size[0]/dpi, pixel_size[1]/dpi)
 
 
-def plot_outputs(res, fig_px_size=None, fig_dpi=100):
+def plot_outputs(res, fig_px_size=None, fig_dpi=100, output_filename=None):
     """
     fig_px_size: int tuple (width, height) specifying figure size in pixels
 
@@ -40,45 +40,49 @@ def plot_outputs(res, fig_px_size=None, fig_dpi=100):
                 plt.imshow(output["image"], cmap='coolwarm')
             plt.colorbar()
     plt.tight_layout()
+    if output_filename is not None:
+        plt.savefig(output_filename)
     plt.show()
 
 
 
-def create_RHS_table(pipeline_dict):
-    reshaped_dict = OrderedDict()
+def create_RHS_table(pipeline_dict, normalized=True):
+    table_values = {}
     for model_name, outputs in pipeline_dict.items():
         if model_name != 'input_stimuli':
+            normalization = 1
+            if normalized:
+                normalization_key = tuple(key for key in pipeline_dict[model_name] if "we_thick" in key.lower())
+                normalization = abs(calculate_RHS_table_values(pipeline_dict[model_name][normalization_key[0]]['means'])) if len(normalization_key) else 1
             for stim_name, output in outputs.items():
-                if stim_name not in reshaped_dict:
-                    reshaped_dict[stim_name] = OrderedDict()
-                reshaped_dict[stim_name][model_name] = output["means"]
+                if stim_name not in table_values:
+                    table_values[stim_name] = OrderedDict()
+                table_values[stim_name][model_name] = calculate_RHS_table_values(pipeline_dict[model_name][stim_name]['means'], normalization)
 
     data_string = ""
-    for stim_name, means_dict in reshaped_dict.items():
+    for stim_name, model_names in table_values.items():
         data_string += f"<tr><td>{stim_name}</td>"
-        for model_name, means in means_dict.items():
-            patch1, patch2 = tuple(reshaped_dict[stim_name][model_name].values())
-            table_value = calculate_RHS_table_values(means)
-            data_string += f"<td>{round(patch1,2)} : {round(patch2,2)} </td>"
+        for model_name, table_value in model_names.items():
+            data_string += f"<td>{round(table_value,2)} </td>"
         data_string += "</tr>"
 
-
+    models_string = ""
+    for model_name in pipeline_dict:
+        models_string += f"<th>{model_name}</th>"
     return f"""
         <html>
             <head>
             <style>
             @page {{
-                size: A2;
+                size: A3;
                 margin: 0;
                 }}
             </style>
             </head>
             <body>
-                'first' means that the first target is smaller/darker than the second one, 'second' means that the second target is smaller/darker than the first one
                  <table style="width:100%">
                     <tr>
-                        <th> Illusion </th>
-                        <th>ODOG_BM1999</th>
+                        {models_string}
                     </tr>
                     {data_string}
                 </table> 
