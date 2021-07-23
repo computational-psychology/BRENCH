@@ -18,22 +18,40 @@ if not load:
     print("Initialising models...")
     models = [
             {
-                "name": "ODOG_RHS2007",
+                "name": "ODOG_RHS2007_32deg",
                 "runner": multyscale_main,
                 "model": "ODOG_RHS2007",
-                "params": {"visextent": (-16, 16, -16, 16)}
+                "params": {"visextent": (-16., 16., -16., 16.)}
             },
             {
-                "name": "LODOG_RHS2007",
+                "name": "LODOG_RHS2007_32deg",
                 "runner": multyscale_main,
                 "model": "LODOG_RHS2007",
-                "params": {"visextent": (-16, 16, -16, 16)}
+                "params": {"visextent": (-16., 16., -16., 16.)}
             },
             {
-                "name": "FLODOG_RHS2007",
+                "name": "FLODOG_RHS2007_32deg",
                 "runner": multyscale_main,
                 "model": "FLODOG_RHS2007",
-                "params": {"visextent": (-16, 16, -16, 16)}
+                "params": {"visextent": (-16., 16., -16., 16.)}
+            },
+            {
+                "name": "ODOG_RHS2007_3deg",
+                "runner": multyscale_main,
+                "model": "ODOG_RHS2007",
+                "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)}
+            },
+            {
+                "name": "LODOG_RHS2007_3deg",
+                "runner": multyscale_main,
+                "model": "LODOG_RHS2007",
+                "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)}
+            },
+            {
+                "name": "FLODOG_RHS2007_3deg",
+                "runner": multyscale_main,
+                "model": "FLODOG_RHS2007",
+                "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)}
             },
             {
                 "name": "domijan2015",
