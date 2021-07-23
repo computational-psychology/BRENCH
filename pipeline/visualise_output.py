@@ -74,7 +74,7 @@ def create_RHS_table(pipeline_dict, normalized=True):
             <head>
             <style>
             @page {{
-                size: A3;
+                size:30in 4in;
                 margin: 0;
                 }}
             </style>

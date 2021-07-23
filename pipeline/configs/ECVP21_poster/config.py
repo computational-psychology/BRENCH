@@ -90,7 +90,11 @@ def run():
     plot_outputs(res, output_filename=output_name + ".png")
     table = create_RHS_table(res, normalized=False)
     html = HTML(string=table)
-    html.write_pdf(output_name + "_nonormalization.pdf")
+    html.write_pdf(output_name + "_nonormalization.pdf", presentational_hints=True)
+
+    table = create_RHS_table(res, normalized=True)
+    html = HTML(string=table)
+    html.write_pdf(output_name + "_normalization.pdf", presentational_hints=True)
 
 
 if __name__ == "__main__":
