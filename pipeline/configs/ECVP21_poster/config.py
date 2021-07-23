@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 from weasyprint import HTML
-import pickle
 
 from pipeline import main
 from pipeline.adapters.multyscale import main as multyscale_main
@@ -13,7 +11,7 @@ from pipeline.utils import save_dict, load_dict
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-load = True
+load = False
 output_name = "full_output"
 
 if not load:
@@ -23,13 +21,13 @@ if not load:
                 "name": "ODOG_RHS2007",
                 "runner": multyscale_main,
                 "model": "ODOG_RHS2007",
-                "params": {"visextent": (-16,16,-16,16)}
+                "params": {"visextent": (-16, 16, -16, 16)}
             },
             {
                 "name": "LODOG_RHS2007",
                 "runner": multyscale_main,
                 "model": "LODOG_RHS2007",
-                "params": {"visextent": (-16,16,-16,16)}
+                "params": {"visextent": (-16, 16, -16, 16)}
             },
             {
                 "name": "FLODOG_RHS2007",
@@ -75,6 +73,7 @@ def run():
     table = create_RHS_table(res, normalized=False)
     html = HTML(string=table)
     html.write_pdf(output_name + "_nonormalization.pdf")
+
 
 if __name__ == "__main__":
     run()

@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='pipeline',
       version='0.1',
@@ -6,5 +6,6 @@ setup(name='pipeline',
       author='Matko Matic',
       author_email='matko.matic@tutanota.com',
       license='MIT',
-      packages=['pipeline'],
+#      packages=['pipeline'],
+      packages=find_packages(include=['pipeline', 'pipeline.*']),
       zip_safe=False)
