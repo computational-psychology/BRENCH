@@ -11,7 +11,9 @@ from pipeline.utils import save_dict, load_dict
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
+from pipeline.adelson_checkershadow import adelson_checkershadow
 
+start = time.time()
 load_pickle = False
 save_pickle = False
 output_filename = "full_output"
@@ -19,44 +21,56 @@ output_filename = "full_output"
 if not load_pickle:
     print("Initialising models...")
     models = [
-            {
-                "name": "ODOG_RHS2007",
-                "runner": multyscale_main,
-                "model": "ODOG_RHS2007",
-                "params": {"visextent": (-16,16,-16,16)}
-            },
-            {
-                "name": "LODOG_RHS2007",
-                "runner": multyscale_main,
-                "model": "LODOG_RHS2007",
-                "params": {"visextent": (-16,16,-16,16)}
-            },
-            {
-                "name": "FLODOG_RHS2007",
-                "runner": multyscale_main,
-                "model": "FLODOG_RHS2007",
-                "params": {"visextent": (-16, 16, -16, 16)}
-            },
-            {
-                "name": "domijan2015",
-                "runner": domijan_main,
-                "model": None,
-                "params": {"S": 20}
-            }
-        ]
+        {
+            "name": "ODOG_RHS2007_32deg",
+            "runner": multyscale_main,
+            "model": "ODOG_RHS2007",
+            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+        },
+        {
+            "name": "LODOG_RHS2007_32deg",
+            "runner": multyscale_main,
+            "model": "LODOG_RHS2007",
+            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+        },
+        {
+            "name": "FLODOG_RHS2007_32deg",
+            "runner": multyscale_main,
+            "model": "FLODOG_RHS2007",
+            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+        },
+        {
+            "name": "ODOG_RHS2007_3.2deg",
+            "runner": multyscale_main,
+            "model": "ODOG_RHS2007",
+            "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
+        },
+        {
+            "name": "FLODOG_RHS2007_3.2deg",
+            "runner": multyscale_main,
+            "model": "FLODOG_RHS2007",
+            "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
+        },
+        {
+            "name": "domijan2015",
+            "runner": domijan_main,
+            "model": None,
+            "params": {"S": 20},
+        },
+    ]
 
     stimuli = {
-            "RHS2007_WE_thick": RHS_stimuli.WE_thick,
-            "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
-            "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
-            "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
             "RHS2007_sbc_large": RHS_stimuli.sbc_large,
-
-            "domijan2015_white": domijan_stimuli.white,
-            "domijan2015_todorovic": domijan_stimuli.todorovic,
+            "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
+            "RHS2007_WE_thick": RHS_stimuli.WE_thick,
+            "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
+            "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
             "domijan2015_sbc": domijan_stimuli.simultaneous_brightness_contrast,
             "domijan2015_checkerboard_contrast": domijan_stimuli.checkerboard,
+            "domijan2015_white": domijan_stimuli.white,
+            "domijan2015_todorovic": domijan_stimuli.todorovic,
             "domijan2015_dungeon": domijan_stimuli.dungeon,
+            "adelson_checkershadow": adelson_checkershadow,
     }
 
     config_dict = {"models": models, "stimuli": stimuli}
@@ -81,3 +95,6 @@ def evaluate(pipeline_dict):
 if __name__ == "__main__":
     res = run()
     evaluate(res)
+
+stop = time.time()
+print('All done! Elapsed time: ', np.round(stop-start, 3))
