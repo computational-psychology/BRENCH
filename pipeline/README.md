@@ -123,7 +123,7 @@ config_template = {
     "stimuli": {
         "<User assigned stimulus name>": "<Stimulus array>",
     }
-
+}
 ```
 The dictionary contains two keys, `models` and `stimuli`. Let's look at the `models` one first.  
 It is a list of dictionaries where each dictionary represents one model to be run. For each model, there are four keys: `name`, `model`, `package` and `params`.  

@@ -21,7 +21,6 @@ if not load:
             "model": None,
             "params": {"S": 20}
         }
-
     ]
 
     print("Initialising stimuli...")
