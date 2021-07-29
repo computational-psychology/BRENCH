@@ -9,10 +9,11 @@ from pipeline.utils import save_dict, load_dict
 
 import stimuli.papers.domijan2015 as domijan_stimuli
 
+load_pickle = False
+save_pickle = False
+output_filename = "full_output"
 
-load = False
-
-if not load:
+if not load_pickle:
     print("Initialising models...")
     models = [
         {
@@ -42,17 +43,21 @@ if not load:
 domijan2015 = {"models": models, "stimuli": stimuli}
 
 def run():
-    if load:
-        res = load_dict("output_S20.pickle")
+    if load_pickle:
+        res = load_dict(output_filename + ".pickle")
     else:
-        res = main.run_model(domijan2015)
-        save_dict(res, "output_S20.pickle")
+        res = main.run_model(config_dict)
+        if save_pickle:
+            save_dict(res, output_filename + ".pickle")
+    return res
 
-    res = calculate_targets_means(res)
-    plot_outputs(res)
-    table = create_RHS_table(res)
-    html = HTML(string=table)
-    html.write_pdf("output_S20.pdf")
+
+def evaluate(pipeline_dict):
+    res = calculate_targets_means(pipeline_dict)
+    plot_outputs(res, output_filename=output_filename + ".png")
+    table = create_RHS_table(res, "output.csv", normalized=True)
+
 
 if __name__ == "__main__":
-    run()
+    res = run()
+    evaluate(res)

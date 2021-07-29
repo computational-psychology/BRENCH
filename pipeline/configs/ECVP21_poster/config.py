@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from weasyprint import HTML
 import pickle
 
 from pipeline import main
@@ -13,10 +12,11 @@ from pipeline.utils import save_dict, load_dict
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-load = True
-output_name = "full_output"
+load_pickle = False
+save_pickle = False
+output_filename = "full_output"
 
-if not load:
+if not load_pickle:
     print("Initialising models...")
     models = [
             {
@@ -45,7 +45,6 @@ if not load:
             }
         ]
 
-    print("Initialising stimuli...")
     stimuli = {
             "RHS2007_WE_thick": RHS_stimuli.WE_thick,
             "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
@@ -64,17 +63,21 @@ if not load:
 
 
 def run():
-    if load:
-        res = load_dict(output_name + ".pickle")
+    if load_pickle:
+        res = load_dict(output_filename + ".pickle")
     else:
         res = main.run_model(config_dict)
-        save_dict(res, output_name + ".pickle")
+        if save_pickle:
+            save_dict(res, output_filename + ".pickle")
+    return res
 
-    res = calculate_targets_means(res)
-    plot_outputs(res, output_filename=output_name + ".png")
-    table = create_RHS_table(res, normalized=False)
-    html = HTML(string=table)
-    html.write_pdf(output_name + "_nonormalization.pdf")
+
+def evaluate(pipeline_dict):
+    res = calculate_targets_means(pipeline_dict)
+    plot_outputs(res, output_filename=output_filename + ".png")
+    table = create_RHS_table(res, "output.csv", normalized=True)
+
 
 if __name__ == "__main__":
-    run()
+    res = run()
+    evaluate(res)

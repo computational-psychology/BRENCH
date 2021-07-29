@@ -1,3 +1,4 @@
+import csv
 import matplotlib.pyplot as plt
 import matplotlib
 from collections import OrderedDict
@@ -46,7 +47,7 @@ def plot_outputs(res, fig_px_size=None, fig_dpi=100, output_filename=None):
 
 
 
-def create_RHS_table(pipeline_dict, normalized=True):
+def create_RHS_table(pipeline_dict, output_filename, normalized=True):
     table_values = {}
     for model_name, outputs in pipeline_dict.items():
         if model_name != 'input_stimuli':
@@ -59,34 +60,20 @@ def create_RHS_table(pipeline_dict, normalized=True):
                     table_values[stim_name] = OrderedDict()
                 table_values[stim_name][model_name] = calculate_RHS_table_values(pipeline_dict[model_name][stim_name]['means'], normalization)
 
-    data_string = ""
-    for stim_name, model_names in table_values.items():
-        data_string += f"<tr><td>{stim_name}</td>"
-        for model_name, table_value in model_names.items():
-            data_string += f"<td>{round(table_value,2)} </td>"
-        data_string += "</tr>"
+    output_file = open(output_filename, "w")
+    csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-    models_string = ""
+    models = []
     for model_name in pipeline_dict:
-        models_string += f"<th>{model_name}</th>"
-    return f"""
-        <html>
-            <head>
-            <style>
-            @page {{
-                size: A3;
-                margin: 0;
-                }}
-            </style>
-            </head>
-            <body>
-                 <table style="width:100%">
-                    <tr>
-                        {models_string}
-                    </tr>
-                    {data_string}
-                </table> 
-            </body>
-        </html>
-    """
+        models.append(model_name)
+    csv_writer.writerow(models)
+
+    for stim_name, model_names in table_values.items():
+        row = [stim_name]
+        for model_name, table_value in model_names.items():
+            row.append(round(table_value,2))
+        csv_writer.writerow(row)
+
+
+
 
