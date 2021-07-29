@@ -8,7 +8,7 @@ setup(
     author_email="matko.matic@tutanota.com",
     license="MIT",
     #      packages=['pipeline'],
-    packages=find_packages(include=["pipeline", "pipeline.*"]),
+    packages=find_packages(),
     zip_safe=False,
     install_requires=[
         "numpy",
