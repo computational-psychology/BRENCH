@@ -1,0 +1,18 @@
+# python bytecode
+__pycache__/
+
+# pytest cache directory
+.pytest_cache/
+
+# pycharm files
+.idea/
+
+# vim swap files
+*.sw?
+
+# jupyter notebook checkpoint files
+.ipynb_checkpoints
+
+*.egg-info
+
+*.pickle
