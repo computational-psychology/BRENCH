@@ -8,7 +8,7 @@ import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
 from pipeline import main
-from pipeline.visualise_output import create_RHS_table, plot_outputs
+from pipeline.utils import create_RHS_table, plot_outputs
 from pipeline.postprocessing import mean_target_value
 
 import time

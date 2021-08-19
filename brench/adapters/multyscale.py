@@ -23,3 +23,5 @@ def main(model, params, stimuli):
         outputs[stimulus_name] = {"image": model_object.apply(stimulus.img)}
 
     return outputs
+
+

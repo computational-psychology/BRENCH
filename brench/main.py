@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from pipeline import adapters
+from brench import adapters
 
 def run_model(config):
     outputs = OrderedDict()
@@ -10,15 +10,3 @@ def run_model(config):
         runner = model["runner"]
         outputs[model["name"]] = runner(model["model"], model["params"], config["stimuli"])
     return outputs
-
-"""
-outputs = {
-    input_stimuli:{
-        stim_name: stim
-    }
-    model_name: {
-        stim_name: output
-    }
-}
-
-"""

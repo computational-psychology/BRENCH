@@ -1,17 +1,16 @@
 import matplotlib.pyplot as plt
 import pickle
+import time
 
-from pipeline import main
-from pipeline.adapters.multyscale import main as multyscale_main
-from pipeline.adapters.domijan2015 import main as domijan_main
-
-from pipeline.visualise_output import create_RHS_table, plot_outputs
-from pipeline.postprocessing import calculate_targets_means
-from pipeline.utils import save_dict, load_dict
+from brench import main
+from brench.adapters.multyscale import main as multyscale_main
+from brench.adapters.domijan2015 import main as domijan_main
+from brench.postprocessing import calculate_targets_means
+from brench.utils import save_dict, load_dict, create_RHS_table, plot_outputs
+from adelson_checkershadow import adelson_checkershadow
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
-from pipeline.adelson_checkershadow import adelson_checkershadow
 
 start = time.time()
 load_pickle = False

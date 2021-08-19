@@ -3,9 +3,8 @@ import pickle
 
 from pipeline.adapters.multyscale import main as multyscale_main
 from pipeline import main
-from pipeline.visualise_output import create_RHS_table, plot_outputs
 from pipeline.postprocessing import calculate_targets_means
-from pipeline.utils import save_dict, load_dict
+from pipeline.utils import save_dict, load_dict, create_RHS_table, plot_outputs
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 
