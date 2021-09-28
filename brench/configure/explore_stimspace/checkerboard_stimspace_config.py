@@ -7,6 +7,7 @@ from brench.utils.adapters import ODOG_RHS2007
 import brench.run
 from brench.evaluate import (
     calculate_targets_difference,
+    create_RHS_table,
     save_plot,
 )
 
@@ -51,7 +52,7 @@ for extend in extended_targets:
     for height_checks in board_heights:
         for width_checks in board_widths:
             for check_size in check_sizes:
-                name = f"checkerboard-{height_checks}-{width_checks}-{check_size}-{extend}"
+                name = f"checkerboard_{height_checks}_{width_checks}_{check_size}_{extend}"
 
                 total_height, total_width, ppd = (32,) * 3
                 board_shape = (height_checks, width_checks)
@@ -114,7 +115,11 @@ def final(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
-    # create_RHS_table("evaluate/diffs", "output.csv", normalized=True)
+    create_RHS_table(
+        outputs_dir / "diffs",
+        outputs_dir / "target_differences.csv",
+        normalized=False,
+    )
     # plot_all_outputs("evaluate/plots", "all.png")
     pass
 

@@ -7,6 +7,7 @@ from brench.utils.adapters import ODOG_RHS2007
 import brench.run
 from brench.evaluate import (
     calculate_targets_difference,
+    create_RHS_table,
     save_plot,
 )
 
@@ -39,7 +40,7 @@ target_luminances = [
 for freq in grating_frequencies:
     for h in target_heights:
         for lum in target_luminances:
-            name = f"white-{freq}-{h}-{lum}"
+            name = f"white_{freq}_{h}_{lum}"
             total_height, total_width, ppd = (32,) * 3
             height, width = 12, 16
             padding_horizontal = (total_width - width) / 2
@@ -106,7 +107,11 @@ def final(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
-    # create_RHS_table("evaluate/diffs", "output.csv", normalized=True)
+    create_RHS_table(
+        outputs_dir / "diffs",
+        outputs_dir / "target_differences.csv",
+        normalized=False,
+    )
     # plot_all_outputs("evaluate/plots", "all.png")
     pass
 
