@@ -86,13 +86,6 @@ def save_plot(output_image, out):
     plt.imsave(out, output_image, cmap="coolwarm")
 
 
-def save_output(model_output, out):
-    head, tails = os.path.split(out)
-    if not os.path.isdir(head) and head != "":
-        os.makedirs(head)
-    utils.save_dict(model_output, out)
-
-
 def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
     """
     fig_px_size: int tuple (width, height) specifying figure size in pixels

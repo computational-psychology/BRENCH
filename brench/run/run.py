@@ -1,6 +1,5 @@
 import os
-from brench.utils import load_dict
-from brench.evaluate.postprocessing import save_output
+from brench.utils import load_dict, save_raw_model_output
 
 
 def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
@@ -38,7 +37,7 @@ def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
 
             # Save raw model outputs
             if save:
-                save_output(
+                save_raw_model_output(
                     {"model_output": model_output, "stim": stim},
                     outputs_dir
                     / "raw"

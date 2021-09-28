@@ -1,4 +1,13 @@
 import pickle
+import os
+
+
+def save_raw_model_output(model_output, out):
+    # TODO use pathlib
+    head, tails = os.path.split(out)
+    if not os.path.isdir(head) and head != "":
+        os.makedirs(head)
+    save_dict(model_output, out)
 
 
 def save_dict(res_dict, dic_name):
