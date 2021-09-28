@@ -19,6 +19,8 @@ def run(config_dict, evaluate, final, outputs_dir=None):
                 stim = stim_func()
                 print(f"Running model {model['name']} on {stim_name}")
                 adapter = model["adapter"]
-                model_output = adapter(model["params"], stim.img)
+                model_output = adapter(
+                    model["model"], model["params"], stim.img
+                )
             evaluate(model["name"], stim_name, model_output, stim)
     final()

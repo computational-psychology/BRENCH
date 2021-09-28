@@ -1,7 +1,7 @@
 import multyscale
 
 
-def main(params, stim):
+def main(model, params, stim):
     """
     model_name: String
     stim: 2D numpy array
@@ -9,7 +9,6 @@ def main(params, stim):
 
     # Parameterize model
     visextent = params["visextent"]
-    model = params["model"]
     shape = stim.shape
 
     # Create model object

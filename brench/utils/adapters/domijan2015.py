@@ -1,7 +1,7 @@
 import domijan2015
 
 
-def main(params, stim):
+def main(model, params, stim):
     """
     stim: 2D numpy array
     """
