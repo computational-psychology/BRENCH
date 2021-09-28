@@ -23,16 +23,18 @@ def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
                     load = load_dict(outputs_dir / "raw" / pickle_name)
                     stim = load["stim"]
                     model_output = load["model_output"]
-                    pass
                 else:
                     print(f"no {pickle_name} found -- running.")
+                    # Run
+                    stim = stim_func()
+                    adapter = model["adapter"]
+                    model_output = adapter(model["params"], stim.img)
             else:
                 print("running.")
-
-            # Run
-            stim = stim_func()
-            adapter = model["adapter"]
-            model_output = adapter(model["params"], stim.img)
+                # Run
+                stim = stim_func()
+                adapter = model["adapter"]
+                model_output = adapter(model["params"], stim.img)
 
             # Save raw model outputs
             if save:
