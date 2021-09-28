@@ -3,7 +3,7 @@ import os
 from brench.utils import load_dict
 
 
-def main(config_dict, evaluate, final, outputs_dir=None):
+def run(config_dict, evaluate, final, outputs_dir=None):
     for model in config_dict["models"]:
         for stim_name, stim_func in config_dict["stimuli"].items():
             pickle_name = f"{model['name']}-{stim_name}.pickle"
