@@ -25,17 +25,17 @@ models = [
 
 stimuli = {
     "dungeon": domijan_stimuli.dungeon,
-    # "cube": domijan_stimuli.cube,
-    # "grating": domijan_stimuli.grating,
+    "cube": domijan_stimuli.cube,
+    "grating": domijan_stimuli.grating,
     "ring": domijan_stimuli.rings,
-    # "bullseye": domijan_stimuli.bullseye,
-    # "simultaneous_brightness_contrast": domijan_stimuli.simultaneous_brightness_contrast,
-    # "white": domijan_stimuli.white,
-    # "benary_cross": domijan_stimuli.benary,
+    "bullseye": domijan_stimuli.bullseye,
+    "simultaneous_brightness_contrast": domijan_stimuli.simultaneous_brightness_contrast,
+    "white": domijan_stimuli.white,
+    "benary_cross": domijan_stimuli.benary,
     "todorovic": domijan_stimuli.todorovic,
-    # "checkerboard_contrast_contrast": domijan_stimuli.checkerboard_contrast_contrast,
-    # "checkerboard_contrast": domijan_stimuli.checkerboard,
-    # "checkerboard_contrast_extended": domijan_stimuli.checkerboard_extended,
+    "checkerboard_contrast_contrast": domijan_stimuli.checkerboard_contrast_contrast,
+    "checkerboard_contrast": domijan_stimuli.checkerboard,
+    "checkerboard_contrast_extended": domijan_stimuli.checkerboard_extended,
 }
 
 domijan2015_config = {"models": models, "stimuli": stimuli}
