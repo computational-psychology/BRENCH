@@ -1,7 +1,6 @@
-from brench import main
-from brench.adapters.multyscale import main as multyscale_main
-from brench.adapters.domijan2015 import main as domijan_main
-from brench.postprocessing import (
+import brench.run
+from brench.utils.adapters import multyscale, domijan2015
+from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
     plot_all_outputs,
@@ -25,37 +24,37 @@ if not load_pickle:
     models = [
         {
             "name": "ODOG_RHS2007_32deg",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "ODOG_RHS2007",
             "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
         },
         {
             "name": "LODOG_RHS2007_32deg",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "LODOG_RHS2007",
             "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
         },
         {
             "name": "FLODOG_RHS2007_32deg",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "FLODOG_RHS2007",
             "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
         },
         {
             "name": "ODOG_RHS2007_3.2deg",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "ODOG_RHS2007",
             "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
         },
         {
             "name": "FLODOG_RHS2007_3.2deg",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "FLODOG_RHS2007",
             "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
         },
         {
             "name": "domijan2015",
-            "runner": domijan_main,
+            "runner": domijan2015,
             "model": None,
             "params": {"S": 20},
         },
@@ -78,11 +77,11 @@ if not load_pickle:
     config_dict = {"models": models, "stimuli": stimuli}
 
 
-def run():
+def run_config():
     if load_pickle:
         res = load_dict(output_filename + ".pickle")
     else:
-        res = main.main(config_dict)
+        res = brench.run(config_dict)
         if save_pickle:
             save_dict(res, output_filename + ".pickle")
     return res
@@ -100,7 +99,7 @@ if __name__ == "__main__":
     import numpy as np
 
     start = time.time()
-    res = run()
+    res = run_config()
     evaluate(res)
 
     stop = time.time()

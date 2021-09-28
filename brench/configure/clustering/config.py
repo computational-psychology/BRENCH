@@ -2,21 +2,21 @@ import time
 import os
 import numpy as np
 
-from brench.adapters.multyscale import main as multyscale_main
-from brench.postprocessing import (
+import stimuli.illusions
+from brench.utils.adapters import multyscale
+import brench.run
+from brench.evaluate import (
     calculate_targets_difference,
     save_plot,
     save_output,
 )
-from brench.main import main
 
-import stimuli
 
 print("Initialising models...")
 models = [
     {
         "name": "ODOG_RHS2007_32deg",
-        "adapter": multyscale_main,
+        "adapter": multyscale,
         "params": {
             "model": "ODOG_RHS2007",
             "visextent": (-16.0, 16.0, -16.0, 16.0),
@@ -118,8 +118,10 @@ config_dict = {
 }
 
 
-def run():
-    main(config_dict, evaluate, final, os.path.join("evaluate", "outputs"))
+def run_config():
+    brench.run(
+        config_dict, evaluate, final, os.path.join("evaluate", "outputs")
+    )
 
 
 def evaluate(model_name, stimulus_name, model_output, stim):
@@ -166,7 +168,7 @@ def final():
 
 if __name__ == "__main__":
     start = time.time()
-    run()
+    run_config()
     stop = time.time()
 
 print("All done! Elapsed time: ", np.round(stop - start, 3))

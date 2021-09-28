@@ -17,3 +17,6 @@ __pycache__/
 
 *.pickle
 data/
+*.pdf
+*.png
+*.csv

@@ -1,7 +1,7 @@
-from brench.adapters.multyscale import main as multyscale_main
-from brench import main
+from brench.utils import multyscale
+import brench.run
 from brench.utils import save_dict, load_dict
-from brench.postprocessing import (
+from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
     plot_all_outputs,
@@ -18,19 +18,19 @@ if not load_pickle:
     models = [
         {
             "name": "ODOG_RHS2007",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "ODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "LODOG_RHS2007",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "LODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "FLODOG_RHS2007",
-            "runner": multyscale_main,
+            "runner": multyscale,
             "model": "FLODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
@@ -67,7 +67,7 @@ def run():
     if load_pickle:
         res = load_dict(output_filename + ".pickle")
     else:
-        res = main.main(RHS2007)
+        res = brench.run(RHS2007)
         if save_pickle:
             save_dict(res, output_filename + ".pickle")
     return res

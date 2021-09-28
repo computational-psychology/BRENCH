@@ -1,11 +1,11 @@
-from brench.adapters.multyscale import main as multyscale_main
-from brench.adapters.domijan2015 import main as domijan_main
-
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-from brench import main
-from brench.postprocessing import (
+from brench.utils.adapters import multyscale
+from brench.utils.adapters import domijan2015
+
+import brench.run
+from brench.evaluate import (
     calculate_targets_difference,
     plot_all_outputs,
 )
@@ -15,25 +15,25 @@ print("Initialising models...")
 models = [
     {
         "name": "domijan2015",
-        "runner": domijan_main,
+        "runner": domijan2015,
         "model": None,
         "params": {"S": 20},
     },
     {
         "name": "ODOG_BM1999",
-        "runner": multyscale_main,
+        "runner": multyscale,
         "model": "ODOG_BM1999",
         "params": {"visextent": (-16, 16, -16, 16)},
     },
     {
         "name": "LODOG_RHS2007",
-        "runner": multyscale_main,
+        "runner": multyscale,
         "model": "LODOG_RHS2007",
         "params": {"visextent": (-16, 16, -16, 16)},
     },
     {
         "name": "FLODOG_RHS2007",
-        "runner": multyscale_main,
+        "runner": multyscale,
         "model": "FLODOG_RHS2007",
         "params": {"visextent": (-16, 16, -16, 16)},
     },
@@ -76,14 +76,14 @@ stimuli = {
     "domijan2015_checkerboard_extended": domijan_stimuli.checkerboard_extended,
 }
 
-RHS2007 = {"models": models, "stimuli": stimuli}
+config = {"models": models, "stimuli": stimuli}
 
 
-def run():
-    res = main.main(RHS2007)
+def run_config():
+    res = brench.run(config)
     res = calculate_targets_difference(res)
     plot_all_outputs(res)
 
 
 if __name__ == "__main__":
-    run()
+    run_config()
