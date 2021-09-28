@@ -177,10 +177,10 @@ def create_RHS_table(input_dir, out, normalized=True):
         output_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
     )
 
-    models = []
+    headers = ["stimulus"]
     for model_name in full_dict:
-        models.append(model_name)
-    csv_writer.writerow(models)
+        headers.append(model_name)
+    csv_writer.writerow(headers)
 
     for stim_name, model_names in table_values.items():
         row = [stim_name]
