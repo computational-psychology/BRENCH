@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from brench.utils.adapters import domijan2015
 import brench.run
 from brench.evaluate import (
@@ -11,47 +12,49 @@ from brench.evaluate import (
 
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-load_pickle = False
-save_pickle = False
-output_filename = "full_output"
+load_pickle = True
+save_pickle = True
+output_dir = Path(__file__).parents[2] / "data" / "Domijan2015"
 
-if not load_pickle:
-    print("Initialising models...")
-    models = [
-        {
-            "name": "domijan2015",
-            "adapter": domijan2015,
-            "model": None,
-            "params": {"S": 20},
-        }
-    ]
 
-    print("Initialising stimuli...")
-    stimuli = {
-        "dungeon": domijan_stimuli.dungeon,
-        "cube": domijan_stimuli.cube,
-        "grating": domijan_stimuli.grating,
-        "ring": domijan_stimuli.rings,
-        "bullseye": domijan_stimuli.bullseye,
-        "simultaneous_brightness_contrast": domijan_stimuli.simultaneous_brightness_contrast,
-        "white": domijan_stimuli.white,
-        "benary_cross": domijan_stimuli.benary,
-        "todorovic": domijan_stimuli.todorovic,
-        "checkerboard_contrast_contrast": domijan_stimuli.checkerboard_contrast_contrast,
-        "checkerboard_contrast": domijan_stimuli.checkerboard,
-        "checkerboard_contrast_extended": domijan_stimuli.checkerboard_extended,
+models = [
+    {
+        "name": "domijan2015",
+        "adapter": domijan2015,
+        "params": {"S": 20},
     }
+]
 
-domijan2015 = {"models": models, "stimuli": stimuli}
+stimuli = {
+    "dungeon": domijan_stimuli.dungeon,
+    # "cube": domijan_stimuli.cube,
+    # "grating": domijan_stimuli.grating,
+    "ring": domijan_stimuli.rings,
+    # "bullseye": domijan_stimuli.bullseye,
+    # "simultaneous_brightness_contrast": domijan_stimuli.simultaneous_brightness_contrast,
+    # "white": domijan_stimuli.white,
+    # "benary_cross": domijan_stimuli.benary,
+    "todorovic": domijan_stimuli.todorovic,
+    # "checkerboard_contrast_contrast": domijan_stimuli.checkerboard_contrast_contrast,
+    # "checkerboard_contrast": domijan_stimuli.checkerboard,
+    # "checkerboard_contrast_extended": domijan_stimuli.checkerboard_extended,
+}
+
+domijan2015_config = {"models": models, "stimuli": stimuli}
 
 
 def run():
     brench.run(
-        domijan2015, evaluate, final, os.path.join("evaluate", "outputs")
+        domijan2015_config,
+        evaluate,
+        final,
+        outputs_dir=output_dir,
+        load=load_pickle,
+        save=save_pickle,
     )
 
 
-def evaluate(model_name, stimulus_name, model_output, stim):
+def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
     # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
 
     # Do the target masks exist?
@@ -59,20 +62,14 @@ def evaluate(model_name, stimulus_name, model_output, stim):
         # Save plots for all model outputs individually in subfolder "plots":
         save_plot(
             model_output["image"],
-            out=f"evaluate/plots/{model_name}-{stimulus_name}.png",
-        )
-
-        # Save all model outputs individually in subfolder "outputs"
-        save_output(
-            {"model_output": model_output, "stim": stim},
-            f"evaluate/outputs/{model_name}-{stimulus_name}.pickle",
+            out=outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png",
         )
 
         # Calculate and save the difference in estimated target intensity individually in "diffs"
         calculate_targets_difference(
             model_output["image"],
             stim.target_mask,
-            out=f"evaluate/diffs/{model_name}-{stimulus_name}.pickle",
+            out=outputs_dir / "diffs" / f"{model_name}-{stimulus_name}.pickle",
         )
 
 
