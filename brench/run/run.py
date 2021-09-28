@@ -5,7 +5,7 @@ from brench.evaluate.postprocessing import save_output
 
 def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
     if load:
-        assert outputs_dir.exists()
+        assert outputs_dir is not None
         print(f"Loading outputs from {outputs_dir}")
     if save:
         assert outputs_dir is not None
