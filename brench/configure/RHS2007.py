@@ -1,10 +1,13 @@
-from brench.utils import multyscale
+import os
 import brench.run
-from brench.utils import save_dict, load_dict
+#from brench.utils import save_dict, load_dict
+from brench.utils.adapters import multyscale
 from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
     plot_all_outputs,
+    save_output,
+    save_plot
 )
 
 import stimuli.papers.RHS2007 as RHS_stimuli
@@ -18,19 +21,19 @@ if not load_pickle:
     models = [
         {
             "name": "ODOG_RHS2007",
-            "runner": multyscale,
+            "adapter": multyscale,
             "model": "ODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "LODOG_RHS2007",
-            "runner": multyscale,
+            "adapter": multyscale,
             "model": "LODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "FLODOG_RHS2007",
-            "runner": multyscale,
+            "adapter": multyscale,
             "model": "FLODOG_RHS2007",
             "params": {"visextent": (-16, 16, -16, 16)},
         },
@@ -64,22 +67,48 @@ if not load_pickle:
 
 
 def run():
-    if load_pickle:
-        res = load_dict(output_filename + ".pickle")
-    else:
-        res = brench.run(RHS2007)
-        if save_pickle:
-            save_dict(res, output_filename + ".pickle")
-    return res
+    brench.run(
+        RHS2007, evaluate, final, os.path.join("evaluate", "outputs")
+    )
 
 
-def evaluate(pipeline_dict):
-    res = calculate_targets_difference(pipeline_dict)
-    plot_all_outputs(res, output_filename=output_filename + ".png")
-    table = create_RHS_table(res, "output.csv", normalized=True)
-    return table
+def evaluate(model_name, stimulus_name, model_output, stim):
+    # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
+
+    # Do the target masks exist?
+    if stim.target_mask is not None:
+        # Save plots for all model outputs individually in subfolder "plots":
+        save_plot(
+            model_output["image"],
+            out=f"evaluate/plots/{model_name}-{stimulus_name}.png",
+        )
+
+        # Save all model outputs individually in subfolder "outputs"
+        save_output(
+            {"model_output": model_output, "stim": stim},
+            f"evaluate/outputs/{model_name}-{stimulus_name}.pickle",
+        )
+
+        # Calculate and save the difference in estimated target intensity individually in "diffs"
+        calculate_targets_difference(
+            model_output["image"],
+            stim.target_mask,
+            out=f"evaluate/diffs/{model_name}-{stimulus_name}.pickle",
+        )
+
+
+def final():
+    """
+    This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
+    """
+    # Create an overview plot with all model outputs for the different stimuli:
+    plot_all_outputs("evaluate/plots", "all.png")
+
+    # Create table with mean target differences for all models and stimuli:
+    # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
+    create_RHS_table("evaluate/diffs", "output.csv", normalized=True)
+    pass
 
 
 if __name__ == "__main__":
     res = run()
-    evaluate(res)
