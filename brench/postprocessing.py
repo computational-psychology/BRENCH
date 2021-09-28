@@ -2,18 +2,17 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import os
-import pickle
 import csv
 
-import stimuli
 
 from brench import utils
 
 
 def generate_js_data():
     """
-    This function should be run in the final() step. It should take the outputs of the model and 'convert' them to a js file/data that can
-    be read by the browser visualisation
+    This function should be run in the final() step.
+    It should take the outputs of the model and 'convert' them
+    to a js file/data that can be read by the browser visualisation
     """
     pass
 
@@ -82,14 +81,14 @@ def sort_target_patches(means_dict):
 def save_plot(output_image, out):
     # TODO: add option to save colorbar
     head, tails = os.path.split(out)
-    if not os.path.isdir(head) and head is not "":
+    if not os.path.isdir(head) and head != "":
         os.makedirs(head)
     plt.imsave(out, output_image, cmap="coolwarm")
 
 
 def save_output(model_output, out):
     head, tails = os.path.split(out)
-    if not os.path.isdir(head) and head is not "":
+    if not os.path.isdir(head) and head != "":
         os.makedirs(head)
     utils.save_dict(model_output, out)
 
@@ -113,7 +112,7 @@ def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
     cols = len(list(full_dict.values())[0])
 
     if fig_px_size is not None:
-        fig_width, fig_height = px_to_size(fig_px_size, fig_dpi)
+        fig_width, fig_height = utils.px_to_size(fig_px_size, fig_dpi)
     else:
         fig_height, fig_width = (3 * rows, 4 * cols)
 
@@ -135,7 +134,7 @@ def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
     plt.tight_layout()
 
     head, tails = os.path.split(out)
-    if not os.path.isdir(head) and head is not "":
+    if not os.path.isdir(head) and head != "":
         os.makedirs(head)
     plt.savefig(out)
 
@@ -178,7 +177,7 @@ def create_RHS_table(input_dir, out, normalized=True):
             )
 
     head, tails = os.path.split(out)
-    if not os.path.isdir(head) and head is not "":
+    if not os.path.isdir(head) and head != "":
         os.makedirs(head)
     output_file = open(out, "w")
     csv_writer = csv.writer(

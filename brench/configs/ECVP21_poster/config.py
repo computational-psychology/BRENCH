@@ -1,18 +1,21 @@
-import matplotlib.pyplot as plt
-import pickle
-import time
-
 from brench import main
 from brench.adapters.multyscale import main as multyscale_main
 from brench.adapters.domijan2015 import main as domijan_main
-from brench.postprocessing import calculate_targets_means
-from brench.utils import save_dict, load_dict, create_RHS_table, plot_outputs
+from brench.postprocessing import (
+    calculate_targets_difference,
+    create_RHS_table,
+    plot_all_outputs,
+)
+from brench.utils import (
+    save_dict,
+    load_dict,
+)
 from adelson_checkershadow import adelson_checkershadow
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-start = time.time()
+
 load_pickle = False
 save_pickle = False
 output_filename = "full_output"
@@ -79,21 +82,26 @@ def run():
     if load_pickle:
         res = load_dict(output_filename + ".pickle")
     else:
-        res = main.run_model(config_dict)
+        res = main.main(config_dict)
         if save_pickle:
             save_dict(res, output_filename + ".pickle")
     return res
 
 
 def evaluate(pipeline_dict):
-    res = calculate_targets_means(pipeline_dict)
-    plot_outputs(res, output_filename=output_filename + ".png")
+    res = calculate_targets_difference(pipeline_dict)
+    plot_all_outputs(res, output_filename=output_filename + ".png")
     table = create_RHS_table(res, "output.csv", normalized=True)
+    return table
 
 
 if __name__ == "__main__":
+    import time
+    import numpy as np
+
+    start = time.time()
     res = run()
     evaluate(res)
 
-stop = time.time()
-print("All done! Elapsed time: ", np.round(stop - start, 3))
+    stop = time.time()
+    print("All done! Elapsed time: ", np.round(stop - start, 3))

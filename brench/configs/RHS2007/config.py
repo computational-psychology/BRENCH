@@ -1,10 +1,11 @@
-from weasyprint import HTML
-import pickle
-
-from pipeline.adapters.multyscale import main as multyscale_main
-from pipeline import main
-from pipeline.postprocessing import calculate_targets_means
-from pipeline.utils import save_dict, load_dict, create_RHS_table, plot_outputs
+from brench.adapters.multyscale import main as multyscale_main
+from brench import main
+from brench.utils import save_dict, load_dict
+from brench.postprocessing import (
+    calculate_targets_difference,
+    create_RHS_table,
+    plot_all_outputs,
+)
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 
@@ -66,16 +67,17 @@ def run():
     if load_pickle:
         res = load_dict(output_filename + ".pickle")
     else:
-        res = main.run_model(config_dict)
+        res = main.main(RHS2007)
         if save_pickle:
             save_dict(res, output_filename + ".pickle")
     return res
 
 
 def evaluate(pipeline_dict):
-    res = calculate_targets_means(pipeline_dict)
-    plot_outputs(res, output_filename=output_filename + ".png")
+    res = calculate_targets_difference(pipeline_dict)
+    plot_all_outputs(res, output_filename=output_filename + ".png")
     table = create_RHS_table(res, "output.csv", normalized=True)
+    return table
 
 
 if __name__ == "__main__":

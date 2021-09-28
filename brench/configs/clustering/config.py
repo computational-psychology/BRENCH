@@ -1,24 +1,16 @@
-import matplotlib.pyplot as plt
-import pickle
 import time
 import os
 import numpy as np
 
 from brench.adapters.multyscale import main as multyscale_main
-from brench.adapters.domijan2015 import main as domijan_main
 from brench.postprocessing import (
     calculate_targets_difference,
-    create_RHS_table,
-    plot_all_outputs,
     save_plot,
     save_output,
 )
-from brench.utils import save_dict, load_dict
 from brench.main import main
 
 import stimuli
-import stimuli.papers.RHS2007 as RHS_stimuli
-import stimuli.papers.domijan2015 as domijan_stimuli
 
 print("Initialising models...")
 models = [

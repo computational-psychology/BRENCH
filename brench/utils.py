@@ -1,8 +1,4 @@
 import pickle
-import csv
-import matplotlib.pyplot as plt
-import matplotlib
-from collections import OrderedDict
 
 
 def save_dict(res_dict, dic_name):

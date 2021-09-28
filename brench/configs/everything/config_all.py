@@ -1,17 +1,14 @@
-from weasyprint import HTML
-import pickle
-
-from pipeline.adapters.multyscale import main as multyscale_main
-from pipeline.adapters.domijan2015 import main as domijan_main
+from brench.adapters.multyscale import main as multyscale_main
+from brench.adapters.domijan2015 import main as domijan_main
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 
-from pipeline import main
-from pipeline.utils import create_RHS_table, plot_outputs
-from pipeline.postprocessing import mean_target_value
-
-import time
+from brench import main
+from brench.postprocessing import (
+    calculate_targets_difference,
+    plot_all_outputs,
+)
 
 
 print("Initialising models...")
@@ -83,9 +80,9 @@ RHS2007 = {"models": models, "stimuli": stimuli}
 
 
 def run():
-    res = main.run_model(RHS2007)
-    res = mean_target_value(res)
-    plot_outputs(res)
+    res = main.main(RHS2007)
+    res = calculate_targets_difference(res)
+    plot_all_outputs(res)
 
 
 if __name__ == "__main__":
