@@ -1,7 +1,8 @@
 import os
 import brench.run
 #from brench.utils import save_dict, load_dict
-from brench.utils.adapters import multyscale
+# from brench.utils import save_dict, load_dict
+from brench.utils.adapters import ODOG_RHS2007, LODOG_RHS2007, FLODOG_RHS2007
 from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
@@ -21,20 +22,17 @@ if not load_pickle:
     models = [
         {
             "name": "ODOG_RHS2007",
-            "adapter": multyscale,
-            "model": "ODOG_RHS2007",
+            "adapter": ODOG_RHS2007,
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "LODOG_RHS2007",
-            "adapter": multyscale,
-            "model": "LODOG_RHS2007",
+            "adapter": LODOG_RHS2007,
             "params": {"visextent": (-16, 16, -16, 16)},
         },
         {
             "name": "FLODOG_RHS2007",
-            "adapter": multyscale,
-            "model": "FLODOG_RHS2007",
+            "adapter": FLODOG_RHS2007,
             "params": {"visextent": (-16, 16, -16, 16)},
         },
     ]
