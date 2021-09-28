@@ -59,17 +59,17 @@ if not load_pickle:
     ]
 
     stimuli = {
-            "RHS2007_sbc_large": RHS_stimuli.sbc_large,
-            "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
-            "RHS2007_WE_thick": RHS_stimuli.WE_thick,
-            "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
-            "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
-            "domijan2015_sbc": domijan_stimuli.simultaneous_brightness_contrast,
-            "domijan2015_checkerboard_contrast": domijan_stimuli.checkerboard,
-            "domijan2015_white": domijan_stimuli.white,
-            "domijan2015_todorovic": domijan_stimuli.todorovic,
-            "domijan2015_dungeon": domijan_stimuli.dungeon,
-            "adelson_checkershadow": adelson_checkershadow,
+        "RHS2007_sbc_large": RHS_stimuli.sbc_large,
+        "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
+        "RHS2007_WE_thick": RHS_stimuli.WE_thick,
+        "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
+        "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
+        "domijan2015_sbc": domijan_stimuli.simultaneous_brightness_contrast,
+        "domijan2015_checkerboard_contrast": domijan_stimuli.checkerboard,
+        "domijan2015_white": domijan_stimuli.white,
+        "domijan2015_todorovic": domijan_stimuli.todorovic,
+        "domijan2015_dungeon": domijan_stimuli.dungeon,
+        "adelson_checkershadow": adelson_checkershadow,
     }
 
     config_dict = {"models": models, "stimuli": stimuli}
@@ -96,4 +96,4 @@ if __name__ == "__main__":
     evaluate(res)
 
 stop = time.time()
-print('All done! Elapsed time: ', np.round(stop-start, 3))
+print("All done! Elapsed time: ", np.round(stop - start, 3))

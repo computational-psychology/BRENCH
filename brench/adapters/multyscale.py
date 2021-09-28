@@ -1,5 +1,6 @@
 import multyscale
 
+
 def main(params, stim):
     """
     model_name: String
@@ -12,5 +13,3 @@ def main(params, stim):
     output = {"image": model_object.apply(stim)}
 
     return output
-
-

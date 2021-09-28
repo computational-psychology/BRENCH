@@ -20,7 +20,7 @@ if not load_pickle:
             "name": "domijan2015",
             "runner": domijan_main,
             "model": None,
-            "params": {"S": 20}
+            "params": {"S": 20},
         }
     ]
 
@@ -37,10 +37,11 @@ if not load_pickle:
         "todorovic": domijan_stimuli.todorovic,
         "checkerboard contrast-contrast": domijan_stimuli.checkerboard_contrast_contrast,
         "checkerboard contrast": domijan_stimuli.checkerboard,
-        "checkerboard contrast extended": domijan_stimuli.checkerboard_extended
-        }
+        "checkerboard contrast extended": domijan_stimuli.checkerboard_extended,
+    }
 
 domijan2015 = {"models": models, "stimuli": stimuli}
+
 
 def run():
     if load_pickle:
