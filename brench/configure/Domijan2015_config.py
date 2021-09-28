@@ -1,13 +1,11 @@
-import os
 from pathlib import Path
 from brench.utils.adapters import domijan2015
 import brench.run
 from brench.evaluate import (
     calculate_targets_difference,
-    # create_RHS_table,
+    # FIXME create_RHS_table,
     plot_all_outputs,
     save_plot,
-    save_output,
 )
 
 import stimuli.papers.domijan2015 as domijan_stimuli
@@ -73,16 +71,18 @@ def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
         )
 
 
-def final():
+def final(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
     # Create an overview plot with all model outputs for the different stimuli:
-    plot_all_outputs("evaluate/plots", "all.png")
+    plot_all_outputs(
+        outputs_dir / "plots", outputs_dir / "all_model_outputs.png"
+    )
 
     # Create table with mean target differences for all models and stimuli:
     # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
-    #    create_RHS_table("evaluate/diffs", "output.csv", normalized=True)
+    #    create_RHS_table(outputs_dir / "diffs", outputs_dir / "target_differences.csv", normalized=True)
     pass
 
 

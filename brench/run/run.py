@@ -46,4 +46,4 @@ def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
 
             # print("Evaluating")
             evaluate(model["name"], stim_name, model_output, stim, outputs_dir)
-    final()
+    final(outputs_dir)

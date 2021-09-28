@@ -5,7 +5,7 @@ from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
     plot_all_outputs,
-    save_plot
+    save_plot,
 )
 
 import stimuli.papers.RHS2007 as RHS_stimuli
@@ -85,27 +85,33 @@ def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
         # Save plots for all model outputs individually in subfolder "plots":
         save_plot(
             model_output["image"],
-            out=f"evaluate/plots/{model_name}-{stimulus_name}.png",
+            out=outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png",
         )
 
         # Calculate and save the difference in estimated target intensity individually in "diffs"
         calculate_targets_difference(
             model_output["image"],
             stim.target_mask,
-            out=f"evaluate/diffs/{model_name}-{stimulus_name}.pickle",
+            out=outputs_dir / "diffs" / f"{model_name}-{stimulus_name}.pickle",
         )
 
 
-def final():
+def final(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
     # Create an overview plot with all model outputs for the different stimuli:
-    plot_all_outputs("evaluate/plots", "all.png")
+    plot_all_outputs(
+        outputs_dir / "plots", outputs_dir / "all_model_outputs.png"
+    )
 
     # Create table with mean target differences for all models and stimuli:
     # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
-    create_RHS_table("evaluate/diffs", "output.csv", normalized=True)
+    create_RHS_table(
+        outputs_dir / "diffs",
+        outputs_dir / "target_differences.csv",
+        normalized=True,
+    )
     pass
 
 
