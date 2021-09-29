@@ -1,106 +1,152 @@
+# Models
+from brench.utils.adapters import (
+    ODOG_RHS2007,
+    LODOG_RHS2007,
+    FLODOG_RHS2007,
+    domijan2015,
+)
+
+# Stimuli
+import stimuli.papers.RHS2007 as RHS_stimuli
+import stimuli.papers.domijan2015 as domijan_stimuli
+from adelson_checkershadow import adelson_checkershadow
+
+# Run
 import brench.run
-from brench.utils.adapters import multyscale, domijan2015
+
+# Evaluate
 from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
     plot_all_outputs,
+    save_plot,
 )
-from brench.utils import (
-    save_dict,
-    load_dict,
-)
-from adelson_checkershadow import adelson_checkershadow
 
-import stimuli.papers.RHS2007 as RHS_stimuli
-import stimuli.papers.domijan2015 as domijan_stimuli
+# Where does this config save, by default?
+from pathlib import Path
 
+output_dir = Path(__file__).parents[3] / "data" / "ECVP21"
 
-load_pickle = False
-save_pickle = False
-output_filename = "full_output"
+# Configure models:
+models = [
+    {
+        "name": "ODOG_RHS2007_32deg",
+        "adapter": ODOG_RHS2007,
+        "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+    },
+    {
+        "name": "LODOG_RHS2007_32deg",
+        "adapter": LODOG_RHS2007,
+        "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+    },
+    {
+        "name": "FLODOG_RHS2007_32deg",
+        "adapter": FLODOG_RHS2007,
+        "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
+    },
+    {
+        "name": "ODOG_RHS2007_3.2deg",
+        "adapter": ODOG_RHS2007,
+        "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
+    },
+    {
+        "name": "FLODOG_RHS2007_3.2deg",
+        "adapter": FLODOG_RHS2007,
+        "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
+    },
+    {
+        "name": "domijan2015",
+        "adapter": domijan2015,
+        "params": {"S": 20},
+    },
+]
 
-if not load_pickle:
-    print("Initialising models...")
-    models = [
-        {
-            "name": "ODOG_RHS2007_32deg",
-            "runner": multyscale,
-            "model": "ODOG_RHS2007",
-            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
-        },
-        {
-            "name": "LODOG_RHS2007_32deg",
-            "runner": multyscale,
-            "model": "LODOG_RHS2007",
-            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
-        },
-        {
-            "name": "FLODOG_RHS2007_32deg",
-            "runner": multyscale,
-            "model": "FLODOG_RHS2007",
-            "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
-        },
-        {
-            "name": "ODOG_RHS2007_3.2deg",
-            "runner": multyscale,
-            "model": "ODOG_RHS2007",
-            "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
-        },
-        {
-            "name": "FLODOG_RHS2007_3.2deg",
-            "runner": multyscale,
-            "model": "FLODOG_RHS2007",
-            "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
-        },
-        {
-            "name": "domijan2015",
-            "runner": domijan2015,
-            "model": None,
-            "params": {"S": 20},
-        },
-    ]
-
-    stimuli = {
-        "RHS2007_sbc_large": RHS_stimuli.sbc_large,
-        "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
-        "RHS2007_WE_thick": RHS_stimuli.WE_thick,
-        "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
-        "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
-        "domijan2015_sbc": domijan_stimuli.simultaneous_brightness_contrast,
-        "domijan2015_checkerboard_contrast": domijan_stimuli.checkerboard,
-        "domijan2015_white": domijan_stimuli.white,
-        "domijan2015_todorovic": domijan_stimuli.todorovic,
-        "domijan2015_dungeon": domijan_stimuli.dungeon,
-        "adelson_checkershadow": adelson_checkershadow,
-    }
-
-    config_dict = {"models": models, "stimuli": stimuli}
+# Configure stimuli:
+stimuli = {
+    "RHS2007_sbc_large": RHS_stimuli.sbc_large,
+    "RHS2007_checkerboard209": RHS_stimuli.checkerboard209,
+    "RHS2007_WE_thick": RHS_stimuli.WE_thick,
+    "RHS2007_todorovic_in_large": RHS_stimuli.todorovic_in_large,
+    "RHS2007_WE_circular1": RHS_stimuli.WE_circular1,
+    "domijan2015_sbc": domijan_stimuli.simultaneous_brightness_contrast,
+    "domijan2015_checkerboard_contrast": domijan_stimuli.checkerboard,
+    "domijan2015_white": domijan_stimuli.white,
+    "domijan2015_todorovic": domijan_stimuli.todorovic,
+    "domijan2015_dungeon": domijan_stimuli.dungeon,
+    "adelson_checkershadow": adelson_checkershadow,
+}
 
 
-def run_config():
-    if load_pickle:
-        res = load_dict(output_filename + ".pickle")
-    else:
-        res = brench.run(config_dict)
-        if save_pickle:
-            save_dict(res, output_filename + ".pickle")
-    return res
+# Define which evaluation steps should be performed for each model individually:
+def evaluate_each(model_name, stimulus_name, model_output, stim, outputs_dir):
+    # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
+
+    # Do the target masks exist?
+    if stim.target_mask is not None:
+        # Save plots for all model outputs individually in subfolder "plots":
+        plot_file = outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png"
+        save_plot(
+            model_output["image"],
+            out=plot_file,
+        )
+        print(f"    saved plot {plot_file}")
+
+        # Calculate and save the difference in estimated target intensity individually in "diffs"
+        diff_file = (
+            outputs_dir / "diffs" / f"{model_name}-{stimulus_name}.pickle"
+        )
+        calculate_targets_difference(
+            model_output["image"],
+            stim.target_mask,
+            out=diff_file,
+        )
+        print(f"    saved target differences to {diff_file}")
 
 
-def evaluate(pipeline_dict):
-    res = calculate_targets_difference(pipeline_dict)
-    plot_all_outputs(res, output_filename=output_filename + ".png")
-    table = create_RHS_table(res, "output.csv", normalized=True)
-    return table
+# Define which evaluation step should be performed using all model results:
+def evaluate_all(outputs_dir):
+    """
+    This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
+    """
+    # Create an overview plot with all model outputs for the different stimuli:
+    combined_plots = outputs_dir / "all_model_outputs.png"
+    plot_all_outputs(outputs_dir / "plots", combined_plots)
+    print(f"Saved combined figure as {combined_plots}")
+
+    # Create table with mean target differences for all models and stimuli:
+    table_file = outputs_dir / "target_differences.csv"
+    create_RHS_table(
+        outputs_dir / "diffs",
+        table_file,
+        normalized=True,
+    )
+    print(f"Saved table of target differences to {table_file}")
 
 
+# Run from the command-line
 if __name__ == "__main__":
     import time
-    import numpy as np
+
+    # If existent, load model outputs:
+    load_pickle = True
+    # Save model outputs and evaluation results:
+    save_pickle = True
 
     start = time.time()
-    res = run_config()
-    evaluate(res)
+
+    # Run framework with specified config and evaluation functions:
+    brench.run(
+        models,
+        stimuli,
+        evaluate_each,
+        evaluate_all,
+        outputs_dir=output_dir,
+        load=load_pickle,
+        save=save_pickle,
+    )
 
     stop = time.time()
-    print("All done! Elapsed time: ", np.round(stop - start, 3))
+    print(
+        "All done! Elapsed time:"
+        f" {((stop-start)/60):2.0f}m:{((stop-start) % 60):2.0f}s"
+    )
