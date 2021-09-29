@@ -10,7 +10,7 @@ import brench.run
 # Evaluate
 from brench.evaluate import (
     calculate_targets_difference,
-    # FIXME create_RHS_table,
+    create_RHS_table,
     plot_all_outputs,
     save_plot,
 )
@@ -47,18 +47,6 @@ stimuli = {
     "checkerboard_contrast": domijan_stimuli.checkerboard,
     "checkerboard_contrast_extended": domijan_stimuli.checkerboard_extended,
 }
-
-
-def run():
-    brench.run(
-        models,
-        stimuli,
-        evaluate_individual,
-        evaluate_all,
-        outputs_dir=output_dir,
-        load=load_pickle,
-        save=save_pickle,
-    )
 
 
 # Define which evaluation steps should be performed for each model individually:
@@ -98,14 +86,13 @@ def evaluate_all(outputs_dir):
     print(f"Saved combined figure as {combined_plots}")
 
     # Create table with mean target differences for all models and stimuli:
-    # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
-    # table_file = outputs_dir / "target_differences.csv"
-    # create_RHS_table(
-    #     outputs_dir / "diffs",
-    #     table_file,
-    #     normalized=True,
-    # )
-    # print(f"Saved table of target differences to {table_file}")
+    table_file = outputs_dir / "target_differences.csv"
+    create_RHS_table(
+        outputs_dir / "diffs",
+        table_file,
+        normalized=True,
+    )
+    print(f"Saved table of target differences to {table_file}")
 
 
 # Run from the command-line
