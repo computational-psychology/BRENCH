@@ -2,7 +2,9 @@ import os
 from brench.utils import load_dict, save_raw_model_output
 
 
-def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
+def run(
+    models, stimuli, evaluate, final, outputs_dir=None, load=False, save=True
+):
     if load:
         assert outputs_dir is not None
         print(f"Loading outputs from {outputs_dir}")
@@ -10,8 +12,8 @@ def run(config_dict, evaluate, final, outputs_dir=None, load=False, save=True):
         assert outputs_dir is not None
         print(f"Saving outputs to {outputs_dir}")
 
-    for model in config_dict["models"]:
-        for stim_name, stim_func in config_dict["stimuli"].items():
+    for model in models:
+        for stim_name, stim_func in stimuli.items():
             print(f"Model {model['name']} on {stim_name}: ", end="")
 
             # Check for existing file

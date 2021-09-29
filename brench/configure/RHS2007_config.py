@@ -64,14 +64,11 @@ stimuli = {
 }
 
 
-# Create config dict with models and stimuli
-RHS2007_config = {"models": models, "stimuli": stimuli}
-
-
 # Run framework with specified config and evaluation functions:
 def run():
     brench.run(
-        RHS2007_config,
+        models,
+        stimuli,
         evaluate_individual,
         evaluate_all,
         outputs_dir=output_dir,
@@ -81,7 +78,9 @@ def run():
 
 
 # Define which evaluation steps should be performed for each model individually:
-def evaluate_individual(model_name, stimulus_name, model_output, stim, outputs_dir):
+def evaluate_individual(
+    model_name, stimulus_name, model_output, stim, outputs_dir
+):
     # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
     # Do the target masks exist?
     if stim.target_mask is not None:
