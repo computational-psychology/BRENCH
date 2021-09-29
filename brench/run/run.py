@@ -3,7 +3,13 @@ from brench.utils import load_dict, save_raw_model_output
 
 
 def run(
-    models, stimuli, evaluate, final, outputs_dir=None, load=False, save=True
+    models,
+    stimuli,
+    evaluate_each=None,
+    evaluate_all=None,
+    outputs_dir=None,
+    load=False,
+    save=True,
 ):
     if load:
         assert outputs_dir is not None
@@ -48,7 +54,13 @@ def run(
                     outputs_dir / "raw" / pickle_name,
                 )
 
-            print("  evaluating:")
-            evaluate(model["name"], stim_name, model_output, stim, outputs_dir)
+            if evaluate_each is not None:
+                print("  evaluating:")
+                evaluate_each(
+                    model["name"], stim_name, model_output, stim, outputs_dir
+                )
+
             print("  done.")
-    final(outputs_dir)
+
+    if evaluate_all is not None:
+        evaluate_all(outputs_dir)
