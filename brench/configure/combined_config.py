@@ -1,14 +1,6 @@
 # Load other configs
 from brench.configure import Domijan2015_config, RHS2007_config
 
-# Evaluate
-from brench.evaluate import (
-    calculate_targets_difference,
-    # FIXME create_RHS_table,
-    plot_all_outputs,
-    save_plot,
-)
-
 # Where does this config save, by default?
 from pathlib import Path
 
