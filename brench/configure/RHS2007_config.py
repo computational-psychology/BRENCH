@@ -56,7 +56,7 @@ stimuli = {
     "WE_circular1": RHS_stimuli.WE_circular1,
     "WE_circular05": RHS_stimuli.WE_circular05,
     "WE_circular025": RHS_stimuli.WE_circular025,
-    "grating_induction": RHS_stimuli.grating_induction,
+    # "grating_induction": RHS_stimuli.grating_induction,
     "sbc_large": RHS_stimuli.sbc_large,
     "sbc_small": RHS_stimuli.sbc_small,
     "todorovic_equal": RHS_stimuli.todorovic_equal,
@@ -66,6 +66,7 @@ stimuli = {
     "checkerboard0938": RHS_stimuli.checkerboard_0938,
     "checkerboard209": RHS_stimuli.checkerboard209,
 }
+
 
 # Define which evaluation steps should be performed for each model individually:
 def evaluate_each(model_name, stimulus_name, model_output, stim, outputs_dir):
@@ -105,13 +106,13 @@ def evaluate_all(outputs_dir):
 
     # Create table with mean target differences for all models and stimuli:
     # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
-    # table_file = outputs_dir / "target_differences.csv"
-    # create_RHS_table(
-    #     outputs_dir / "diffs",
-    #     table_file,
-    #     normalized=True,
-    # )
-    # print(f"Saved table of target differences to {table_file}")
+    table_file = outputs_dir / "target_differences.csv"
+    create_RHS_table(
+        outputs_dir / "diffs",
+        table_file,
+        normalized=True,
+    )
+    print(f"Saved table of target differences to {table_file}")
 
 
 # Run from the command-line
