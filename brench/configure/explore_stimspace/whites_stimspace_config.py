@@ -4,9 +4,6 @@ from brench.utils.adapters import ODOG_RHS2007
 # Stimuli
 from prepare_whites import create_white_funcs
 
-# Run
-import brench.run
-
 # Evaluate
 from brench.evaluate import (
     calculate_targets_difference,
@@ -95,6 +92,7 @@ def evaluate_all(outputs_dir):
 # Run from the command-line
 if __name__ == "__main__":
     import time
+    import brench.run
 
     # If existent, load model outputs:
     load_pickle = True

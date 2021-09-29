@@ -1,9 +1,6 @@
 # Load other configs
 from brench.configure import Domijan2015_config, RHS2007_config
 
-# Run
-import brench.run
-
 # Evaluate
 from brench.evaluate import (
     calculate_targets_difference,
@@ -24,6 +21,7 @@ stimuli = {**Domijan2015_config.stimuli, **RHS2007_config.stimuli}
 # Run from the command-line
 if __name__ == "__main__":
     import time
+    import brench.run
 
     # If existent, load model outputs:
     load_pickle = True
