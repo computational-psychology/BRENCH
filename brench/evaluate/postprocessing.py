@@ -86,22 +86,24 @@ def save_plot(output_image, out):
     plt.imsave(out, output_image, cmap="coolwarm")
 
 
-def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
+def plot_all_outputs(stimuli, input_dir, out, fig_px_size=None, fig_dpi=100):
     """
     fig_px_size: int tuple (width, height) specifying figure size in pixels
     """
-    # TODO: add input stimuli to the plot as well
-
     full_dict = {}
+    list_stim_names = []
     for filename in os.listdir(input_dir):
         model_name, stim_name = filename.split("-")
+        # Create a list with all stim_names for plotting them later:
+        if stim_name not in list_stim_names:
+            list_stim_names.append(stim_name)
         if model_name not in full_dict:
             full_dict[model_name] = {}
         full_dict[model_name][stim_name] = plt.imread(
             os.path.join(input_dir, filename)
         )
 
-    rows = len(full_dict)
+    rows = len(full_dict) + 1
     cols = len(list(full_dict.values())[0])
 
     if fig_px_size is not None:
@@ -113,15 +115,22 @@ def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
     plt.subplots_adjust(left=0.05, right=0.95)
     matplotlib.rcParams.update({"font.size": 12})
 
+    for j in range(cols):
+        stim_name = list_stim_names[j]
+        plt.subplot(rows, cols, j+1)
+        plt.title(stim_name[0:-4])
+        plt.imshow(stimuli[stim_name[0:-4]]().img, cmap="gray")
+        plt.colorbar()
+
     for i, (model_name, model_outputs) in enumerate(
         full_dict.items()
     ):  # i = row index
         for j, (stim_name, output_image) in enumerate(
             model_outputs.items()
         ):  # j = col index
-            index = i * cols + j + 1
+            index = (i+1) * cols + j + 1
             plt.subplot(rows, cols, index)
-            plt.title(model_name + "\n" + stim_name)
+            plt.title(model_name + "\n" + stim_name[0:-4])
             plt.imshow(output_image, cmap="coolwarm")
             plt.colorbar()
     plt.tight_layout()
@@ -130,6 +139,7 @@ def plot_all_outputs(input_dir, out, fig_px_size=None, fig_dpi=100):
     if not os.path.isdir(head) and head != "":
         os.makedirs(head)
     plt.savefig(out)
+    plt.close()
 
 
 def create_RHS_table(input_dir, out, normalized=True):

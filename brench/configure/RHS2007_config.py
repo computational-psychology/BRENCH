@@ -97,7 +97,7 @@ def evaluate_all(outputs_dir):
     """
     # Create an overview plot with all model outputs for the different stimuli:
     combined_plots = outputs_dir / "all_model_outputs.png"
-    plot_all_outputs(outputs_dir / "plots", combined_plots)
+    plot_all_outputs(stimuli, outputs_dir / "plots", combined_plots)
     print(f"Saved combined figure as {combined_plots}")
 
     # Create table with mean target differences for all models and stimuli:

@@ -33,7 +33,7 @@ models = [
 
 # Configure stimuli
 # Specify the stimspace that you want to test
-grating_frequencies = [0.25, 0.5]
+grating_frequencies = [0.3, 0.6]
 target_heights = [0.5]
 target_luminances = [0.5]
 
@@ -76,7 +76,7 @@ def evaluate_all(outputs_dir):
     """
     # Create an overview plot with all model outputs for the different stimuli:
     combined_plots = outputs_dir / "all_model_outputs.png"
-    plot_all_outputs(outputs_dir / "plots", combined_plots)
+    plot_all_outputs(stimuli, outputs_dir / "plots", combined_plots)
     print(f"Saved combined figure as {combined_plots}")
 
     # Create table with mean target differences for all models and stimuli:
