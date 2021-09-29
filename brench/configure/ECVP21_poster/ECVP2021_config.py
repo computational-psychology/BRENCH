@@ -11,9 +11,6 @@ import stimuli.papers.RHS2007 as RHS_stimuli
 import stimuli.papers.domijan2015 as domijan_stimuli
 from adelson_checkershadow import adelson_checkershadow
 
-# Run
-import brench.run
-
 # Evaluate
 from brench.evaluate import (
     calculate_targets_difference,
@@ -31,32 +28,32 @@ output_dir = Path(__file__).parents[3] / "data" / "ECVP21"
 models = [
     {
         "name": "ODOG_RHS2007_32deg",
-        "adapter": ODOG_RHS2007,
+        "model_func": ODOG_RHS2007,
         "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
     },
     {
         "name": "LODOG_RHS2007_32deg",
-        "adapter": LODOG_RHS2007,
+        "model_func": LODOG_RHS2007,
         "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
     },
     {
         "name": "FLODOG_RHS2007_32deg",
-        "adapter": FLODOG_RHS2007,
+        "model_func": FLODOG_RHS2007,
         "params": {"visextent": (-16.0, 16.0, -16.0, 16.0)},
     },
     {
         "name": "ODOG_RHS2007_3.2deg",
-        "adapter": ODOG_RHS2007,
+        "model_func": ODOG_RHS2007,
         "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
     },
     {
         "name": "FLODOG_RHS2007_3.2deg",
-        "adapter": FLODOG_RHS2007,
+        "model_func": FLODOG_RHS2007,
         "params": {"visextent": (-1.6, 1.6, -1.6, 1.6)},
     },
     {
         "name": "domijan2015",
-        "adapter": domijan2015,
+        "model_func": domijan2015,
         "params": {"S": 20},
     },
 ]
@@ -110,7 +107,7 @@ def evaluate_all(outputs_dir):
     """
     # Create an overview plot with all model outputs for the different stimuli:
     combined_plots = outputs_dir / "all_model_outputs.png"
-    plot_all_outputs(outputs_dir / "plots", combined_plots)
+    plot_all_outputs(stimuli, outputs_dir / "plots", combined_plots)
     print(f"Saved combined figure as {combined_plots}")
 
     # Create table with mean target differences for all models and stimuli:
@@ -126,6 +123,7 @@ def evaluate_all(outputs_dir):
 # Run from the command-line
 if __name__ == "__main__":
     import time
+    import brench.run
 
     # If existent, load model outputs:
     load_pickle = True
