@@ -10,8 +10,11 @@ from brench.evaluate import (
 
 import stimuli.papers.RHS2007 as RHS_stimuli
 
+# If existent, load model outputs:
 load_pickle = True
+# Save model outputs and evaluation results:
 save_pickle = True
+# Output dir for all outputs:
 output_dir = Path(__file__).parents[2] / "data" / "RHS2007"
 
 
@@ -61,25 +64,25 @@ stimuli = {
 }
 
 
-# Create config dict from models and stimuli
+# Create config dict with models and stimuli
 RHS2007_config = {"models": models, "stimuli": stimuli}
 
 
+# Run framework with specified config and evaluation functions:
 def run():
     brench.run(
         RHS2007_config,
-        evaluate,
-        final,
+        evaluate_individual,
+        evaluate_all,
         outputs_dir=output_dir,
         load=load_pickle,
         save=save_pickle,
     )
 
 
-# Define which evaluation steps should be performed:
-def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
+# Define which evaluation steps should be performed for each model individually:
+def evaluate_individual(model_name, stimulus_name, model_output, stim, outputs_dir):
     # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
-
     # Do the target masks exist?
     if stim.target_mask is not None:
         # Save plots for all model outputs individually in subfolder "plots":
@@ -96,7 +99,8 @@ def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
         )
 
 
-def final(outputs_dir):
+# Define which evaluation step should be performed using all model results:
+def evaluate_all(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
@@ -105,8 +109,8 @@ def final(outputs_dir):
         outputs_dir / "plots", outputs_dir / "all_model_outputs.png"
     )
 
-    # Create table with mean target differences for all models and stimuli:
-    # TODO: fix bug with "None" target masks (probably when there more than two target mask values)
+    # Create overview table with mean target differences for all models and stimuli based on
+    # output for individual evaluation:
     create_RHS_table(
         outputs_dir / "diffs",
         outputs_dir / "target_differences.csv",
