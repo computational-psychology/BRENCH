@@ -26,7 +26,7 @@ output_dir = Path(__file__).parents[2] / "data" / "Domijan2015"
 models = [
     {
         "name": "domijan2015",
-        "adapter": domijan2015,
+        "model_func": domijan2015,
         "params": {"S": 20},
     }
 ]

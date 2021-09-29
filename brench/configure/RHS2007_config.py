@@ -26,17 +26,17 @@ output_dir = Path(__file__).parents[2] / "data" / "RHS2007"
 models = [
     {
         "name": "ODOG_RHS2007",
-        "adapter": ODOG_RHS2007,
+        "model_func": ODOG_RHS2007,
         "params": {"visextent": (-16, 16, -16, 16)},
     },
     {
         "name": "LODOG_RHS2007",
-        "adapter": LODOG_RHS2007,
+        "model_func": LODOG_RHS2007,
         "params": {"visextent": (-16, 16, -16, 16)},
     },
     {
         "name": "FLODOG_RHS2007",
-        "adapter": FLODOG_RHS2007,
+        "model_func": FLODOG_RHS2007,
         "params": {"visextent": (-16, 16, -16, 16)},
     },
 ]

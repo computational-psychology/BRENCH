@@ -36,13 +36,13 @@ def run(
                     print(f"  no {pickle_name} found -- running")
                     # Run
                     stim = stim_func()
-                    adapter = model["adapter"]
+                    adapter = model["model_func"]
                     model_output = adapter(model["params"], stim.img)
             else:
                 print(f"  running")
                 # Run
                 stim = stim_func()
-                adapter = model["adapter"]
+                adapter = model["model_func"]
                 model_output = adapter(model["params"], stim.img)
 
             # Save raw model outputs

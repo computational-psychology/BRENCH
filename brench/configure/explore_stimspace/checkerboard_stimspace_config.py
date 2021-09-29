@@ -25,7 +25,7 @@ output_dir = Path(__file__).parents[3] / "data" / "checkerboard_stimspace"
 models = [
     {
         "name": "ODOG_RHS2007_32deg",
-        "adapter": ODOG_RHS2007,
+        "model_func": ODOG_RHS2007,
         "params": {
             "model": "ODOG_RHS2007",
             "visextent": (-16.0, 16.0, -16.0, 16.0),
