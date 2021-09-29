@@ -17,20 +17,23 @@ def run(
             print(f"Model {model['name']} on {stim_name}:")
 
             # Check for existing file
-            if load and ((outputs_dir / "raw").exists()):
+            if load:
                 pickle_name = f"{model['name']}-{stim_name}.pickle"
-                if pickle_name in os.listdir(outputs_dir / "raw"):
+                if (
+                    (outputs_dir / "raw").exists()
+                ) and pickle_name in os.listdir(outputs_dir / "raw"):
                     print(f"  found {pickle_name}.")
                     load = load_dict(outputs_dir / "raw" / pickle_name)
                     stim = load["stim"]
                     model_output = load["model_output"]
                 else:
+                    print(f"  no {pickle_name} found -- running")
                     # Run
                     stim = stim_func()
                     adapter = model["adapter"]
                     model_output = adapter(model["params"], stim.img)
             else:
-                print(f"  no {pickle_name} found -- running.")
+                print(f"  running")
                 # Run
                 stim = stim_func()
                 adapter = model["adapter"]
