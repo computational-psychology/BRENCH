@@ -14,24 +14,23 @@ def run(
 
     for model in models:
         for stim_name, stim_func in stimuli.items():
-            print(f"Model {model['name']} on {stim_name}: ", end="")
+            print(f"Model {model['name']} on {stim_name}:")
 
             # Check for existing file
             if load and ((outputs_dir / "raw").exists()):
                 pickle_name = f"{model['name']}-{stim_name}.pickle"
                 if pickle_name in os.listdir(outputs_dir / "raw"):
-                    print(f"found {pickle_name}.")
+                    print(f"  found {pickle_name}.")
                     load = load_dict(outputs_dir / "raw" / pickle_name)
                     stim = load["stim"]
                     model_output = load["model_output"]
                 else:
-                    print(f"no {pickle_name} found -- running.")
                     # Run
                     stim = stim_func()
                     adapter = model["adapter"]
                     model_output = adapter(model["params"], stim.img)
             else:
-                print("running.")
+                print(f"  no {pickle_name} found -- running.")
                 # Run
                 stim = stim_func()
                 adapter = model["adapter"]
@@ -39,13 +38,14 @@ def run(
 
             # Save raw model outputs
             if save:
+                pickle_name = f"{model['name']}-{stim_name}.pickle"
+                print(f"  saving to {pickle_name}")
                 save_raw_model_output(
                     {"model_output": model_output, "stim": stim},
-                    outputs_dir
-                    / "raw"
-                    / f"{model['name']}-{stim_name}.pickle",
+                    outputs_dir / "raw" / pickle_name,
                 )
 
-            # print("Evaluating")
+            print("  evaluating:")
             evaluate(model["name"], stim_name, model_output, stim, outputs_dir)
+            print("  done.")
     final(outputs_dir)
