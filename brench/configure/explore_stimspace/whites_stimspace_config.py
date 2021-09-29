@@ -2,21 +2,26 @@ import time
 from pathlib import Path
 import numpy as np
 
-import stimuli.illusions
 from brench.utils.adapters import ODOG_RHS2007
 import brench.run
 from brench.evaluate import (
     calculate_targets_difference,
     create_RHS_table,
+    plot_all_outputs,
     save_plot,
 )
+from prepare_whites import create_white_funcs
 
 
+# If existent, load model outputs:
 load_pickle = True
+# Save model outputs and evaluation results:
 save_pickle = True
+# Output dir for all outputs:
 output_dir = Path(__file__).parents[3] / "data" / "whites_stimspace"
 
 
+# Configure models:
 models = [
     {
         "name": "ODOG_RHS2007_32deg",
@@ -29,90 +34,67 @@ models = [
 ]
 
 
-stimuli_white = {}
+# Configure stimuli
+# Specify the stimspace that you want to test
 grating_frequencies = [0.25, 0.5]
-target_heights = [
-    0.1,
-]
-target_luminances = [
-    0.5,
-]
-for freq in grating_frequencies:
-    for h in target_heights:
-        for lum in target_luminances:
-            name = f"white_{freq}_{h}_{lum}"
-            total_height, total_width, ppd = (32,) * 3
-            height, width = 12, 16
-            padding_horizontal = (total_width - width) / 2
-            padding_vertical = (total_height - height) / 2
-            padding = (
-                padding_vertical,
-                padding_vertical,
-                padding_horizontal,
-                padding_horizontal,
-            )
-            # lambda here is needed because we have to pass a function to the stimuli dictionary instead of an actual stimulus object
-            # FIXME: incorrectly produced stimuli...
-            stim_func = lambda: stimuli.illusions.whites.white(
-                shape=(12, 16),
-                ppd=ppd,
-                frequency=freq,
-                period="ignore",
-                target_indices=(2, -3),
-                target_height=h * height,
-                high=0.9,
-                low=0.1,
-                target=lum,
-                padding=padding,
-                padding_val=0.5,
-            )
-            stimuli_white[name] = stim_func
+target_heights = [0.5]
+target_luminances = [0.5]
+
+# Create dictionary of white functions covering the specified stimspace:
+stimuli = create_white_funcs(grating_frequencies, target_heights, target_luminances)
 
 
-config_dict = {
-    "models": models,
-    "stimuli": stimuli_white,
-}
+# Create config dict with models and stimuli
+config_dict = {"models": models, "stimuli": stimuli}
 
 
+# Run framework with specified config and evaluation functions:
 def run_config():
     brench.run(
         config_dict,
-        evaluate,
-        final,
+        evaluate_individual,
+        evaluate_all,
         outputs_dir=output_dir,
         save=save_pickle,
         load=load_pickle,
     )
 
 
-def evaluate(model_name, stimulus_name, model_output, stim, outputs_dir):
+# Define which evaluation steps should be performed for each model individually:
+def evaluate_individual(model_name, stimulus_name, model_output, stim, outputs_dir):
     # TODO: add '{model_name}-{stimulus_name}' as default out values in all the evaluation functions
+    # Do the target masks exist?
+    if stim.target_mask is not None:
+        # Save plots for all model outputs individually in subfolder "plots":
+        save_plot(
+            model_output["image"],
+            out=outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png",
+        )
 
-    # Generally you should check if target mask exists
-    # if stim.target_mask is not None:
-    #    calculate_targets_difference(model_output['image'], stim.target_mask, out=f"evaluate/diffs/{model_name}-{stimulus_name}.pickle")
-    save_plot(
-        model_output["image"],
-        out=outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png",
-    )
-    calculate_targets_difference(
-        model_output["image"],
-        stim.target_mask,
-        out=outputs_dir / "diffs" / f"{model_name}-{stimulus_name}.pickle",
-    )
+        # Calculate and save the difference in estimated target intensity individually in "diffs"
+        calculate_targets_difference(
+            model_output["image"],
+            stim.target_mask,
+            out=outputs_dir / "diffs" / f"{model_name}-{stimulus_name}.pickle",
+        )
 
 
-def final(outputs_dir):
+# Define which evaluation step should be performed using all model results:
+def evaluate_all(outputs_dir):
     """
     This function assumes all values are saved in files with format "{model_name}-{stimulus_name}"
     """
+    # Create an overview plot with all model outputs for the different stimuli:
+    plot_all_outputs(
+        outputs_dir / "plots", outputs_dir / "all_model_outputs.png"
+    )
+
+    # Create table with mean target differences for all models and stimuli:
     create_RHS_table(
         outputs_dir / "diffs",
         outputs_dir / "target_differences.csv",
         normalized=False,
     )
-    # plot_all_outputs("evaluate/plots", "all.png")
     pass
 
 
