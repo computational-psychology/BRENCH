@@ -4,7 +4,6 @@ from brench.utils.adapters import ODOG_RHS2007, LODOG_RHS2007, FLODOG_RHS2007
 # Stimuli
 import stimuli.papers.RHS2007 as RHS_stimuli
 
-
 # Run
 import brench.run
 
@@ -56,7 +55,7 @@ stimuli = {
     "WE_circular1": RHS_stimuli.WE_circular1,
     "WE_circular05": RHS_stimuli.WE_circular05,
     "WE_circular025": RHS_stimuli.WE_circular025,
-    # "grating_induction": RHS_stimuli.grating_induction,
+    "grating_induction": RHS_stimuli.grating_induction,
     "sbc_large": RHS_stimuli.sbc_large,
     "sbc_small": RHS_stimuli.sbc_small,
     "todorovic_equal": RHS_stimuli.todorovic_equal,
