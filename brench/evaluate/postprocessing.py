@@ -78,12 +78,22 @@ def sort_target_patches(means_dict):
     return sorted(means_dict.items(), key=lambda kv: kv[1])
 
 
-def save_plot(output_image, out):
+def save_plot(stim, output_image, out):
     # TODO: add option to save colorbar
     head, tails = os.path.split(out)
     if not os.path.isdir(head) and head != "":
         os.makedirs(head)
-    plt.imsave(out, output_image, cmap="coolwarm")
+    # Calculate abs max for symmetric colorcoding around 0:
+    abs_max = np.abs(output_image).max()
+    # Plot input stimulus:
+    plt.figure(figsize=(12, 8))
+    plt.subplot(1, 2, 1)
+    # Plot model output:
+    plt.imshow(stim.img, cmap='gray')
+    plt.subplot(1, 2, 2)
+    plt.imshow(output_image, vmin=-abs_max, vmax=abs_max, cmap="coolwarm")
+    plt.savefig(out)
+    plt.close()
 
 
 def plot_all_outputs(stimuli, input_dir, out, fig_px_size=None, fig_dpi=100):

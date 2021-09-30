@@ -55,6 +55,7 @@ def evaluate_each(model_name, stimulus_name, model_output, stim, outputs_dir):
         # Save plots for all model outputs individually in subfolder "plots":
         plot_file = outputs_dir / "plots" / f"{model_name}-{stimulus_name}.png"
         save_plot(
+            stim,
             model_output["image"],
             out=plot_file,
         )
